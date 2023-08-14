@@ -1,0 +1,17 @@
+server:
+  port: 80
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    url: jdbc:mysql://39.104.18.14:33306/test?useUnicode=true&characterEncoding=UTF-8
+    #    username: root
+    #    password: rhL8U7uG1m5TrR9zqdKNIDeZoXPx8IaA
+    url: jdbc:mysql://121.41.54.180:23306/test?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 8tPmGqoyd5llG0dmXyLRwznSIXHGYfSD
+
+# Logger Config
+logging:
+  level:
+    com.baomidou.mybatisplus.samples.quickstart: debug
