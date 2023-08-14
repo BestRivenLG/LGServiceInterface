@@ -6,15 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName("account")
 public class Account {
 
-    Long id;
+    private Long id;
 
-    String phone;
+    private String phone;
 
-    String code;
+    private String nickname;
 
-    String nickname;
-
-    String token;
+    private String token;
 
     public Long getId() {
         return id;
@@ -30,14 +28,6 @@ public class Account {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getNickname() {
