@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a1b1a89-ede6-46f2-8290-2ffa474637ec" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/entity/SecureRandomStringGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/action/NettyServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/action/NettyServerHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/action/NettyServerProtocolHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entity/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entity/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entity/RespErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entity/RespErrorCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entity/RespResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entity/RespResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,15 +41,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/cb/Desktop/JavaEnvir/Interface/Project/LGServiceInterface&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;/Users/cb/Desktop/JavaEnvir/Interface/Project/LGServiceInterface/src/main/java/org/example/Main.java&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/mrlg/Desktop/Java/LGServiceInterface",
+    "onboarding.tips.debug.path": "/Users/cb/Desktop/JavaEnvir/Interface/Project/LGServiceInterface/src/main/java/org/example/Main.java",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.Main" />
@@ -87,6 +90,36 @@
           <line>73</line>
           <log-expression expression="     QueryWrapper&lt;Account&gt; query = new QueryWrapper&lt;Account&gt;();&#10;//        query.eq(&quot;token&quot;, token);&#10;//        query.last(&quot;limit 1&quot;);&#10;" language="JAVA" />
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/NettyServerHandler.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/NettyServerHandler.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/NettyServerProtocolHandler.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/NettyServerProtocolHandler.java</url>
+          <line>26</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/NettyServerProtocolHandler.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/NettyServerProtocolHandler.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
