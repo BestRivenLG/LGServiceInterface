@@ -1,21 +1,23 @@
 package org.example.entity;
 
 public class RespResult<T> {
-    private Long code;
+//    private Long code;
 
     private String message;
 
     private T data;
 
+    private  String status;
+
     private String extra;
 
-    public Long getCode() {
-        return code;
-    }
-
-    public void setCode(Long code) {
-        this.code = code;
-    }
+//    public Long getCode() {
+//        return code;
+//    }
+//
+//    public void setCode(Long code) {
+//        this.code = code;
+//    }
 
     public String getMessage() {
         return message;
@@ -31,6 +33,14 @@ public class RespResult<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getExtra() {

@@ -2,9 +2,13 @@ package org.example.entity;
 
 public enum RespErrorCode {
 
-    SUCCESS(0, "Success"),
-    FAILURE(1001, "Failure"),
-    UNREGISTER(10001, "Unregistered");
+    OK(0, "OK"),
+    ERROR(1001, "ERROR"),
+
+    SUCCESS(200, "Success"),
+    UNREGISTER(10001, "Unregistered"),
+
+    INVAILTOKEN(10002, "Token已失效，请重新登录");
 
     private final long code;
     private final String message;
