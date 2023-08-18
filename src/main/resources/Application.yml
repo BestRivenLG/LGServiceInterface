@@ -4,6 +4,7 @@ server:
 netty:
   server:
     port: 8080
+    path: /chat
 
 spring:
   datasource:
