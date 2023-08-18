@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a1b1a89-ede6-46f2-8290-2ffa474637ec" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/action/NioWebSocketChannelInitializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/action/NioWebSocketChannelPool.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/action/RequestUriUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/NettyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/NettyServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/NettyServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/NettyServerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/NioWebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/NioWebSocketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Application.yml" afterDir="false" />
-    </list>
+    <list default="true" id="0a1b1a89-ede6-46f2-8290-2ffa474637ec" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
