@@ -1,37 +1,25 @@
 package org.example.action;
 
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
-import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import io.netty.util.AttributeKey;
 
-public class NettyServerProtocolHandler extends WebSocketServerProtocolHandler {
+public class NioWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFrame> {
 
-    public NettyServerProtocolHandler(String websocketPath) {
-        super(websocketPath);
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, WebSocketFrame frame) {
     }
-
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-
-//        if (msg instanceof WebSocketFrame) {
-//            WebSocketFrame frame = (WebSocketFrame) msg;
-//            if (frame instanceof TextWebSocketFrame) {
-//                TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
-//                String text = textFrame.text();
-//                System.out.println("Received message: " + text);
-//            }
-//        }
 
         if (msg instanceof HttpRequest) {
             HttpRequest httpRequest = (HttpRequest) msg;
 
             // Ensure the request is a GET request and handle only if it's an upgrade request
             if (httpRequest.method() == HttpMethod.GET &&
-                httpRequest.headers().contains(HttpHeaderNames.UPGRADE, HttpHeaderValues.WEBSOCKET, true)) {
+                    httpRequest.headers().contains(HttpHeaderNames.UPGRADE, HttpHeaderValues.WEBSOCKET, true)) {
                 // Extract the URI from the request
                 String uri = httpRequest.uri();
                 httpRequest.setUri("/chat");
@@ -39,11 +27,9 @@ public class NettyServerProtocolHandler extends WebSocketServerProtocolHandler {
                 System.out.println("Received WebSocket Upgrade request, Token: " + token);
             }
         }
-
         super.channelRead(ctx, msg);
     }
-
-
+    
     private String getTokenFromUri(String uri) {
         String[] parts = uri.split("\\?");
         if (parts.length == 2) {

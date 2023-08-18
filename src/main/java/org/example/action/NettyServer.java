@@ -6,14 +6,15 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
-import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+//import io.netty.channel.ChannelPipeline;
 
 @Slf4j
 @Component
@@ -40,13 +41,16 @@ public class NettyServer {
                         protected void initChannel(Channel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
                             pipeline.addLast(new HttpServerCodec());
-                            pipeline.addLast(new HttpObjectAggregator(65536));
-                            pipeline.addLast(new NettyServerProtocolHandler("/chat"));
+                            pipeline.addLast(new HttpObjectAggregator(65535));
+                            pipeline.addLast(new NioWebSocketHandler());
+                            pipeline.addLast(new WebSocketServerProtocolHandler("/chat"));
+//                            pipeline.addLast(new NettyServerProtocolHandler("/chat"));
                             pipeline.addLast(new NettyServerHandler(channelGroup));
                         }
                     });
 
-            Channel channel = serverBootstrap.bind(8080).sync().channel();
+            Channel channel = serverBootstrap.bind(port).sync().channel();
+            log.info("socket 启动成功,port:{}", port);
             channel.closeFuture().sync();
         } finally {
             bossGroup.shutdownGracefully();
