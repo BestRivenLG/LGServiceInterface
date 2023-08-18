@@ -22,9 +22,19 @@ public class TotalActions {
 
     @PostMapping("/userLogin")
     public RespResult<Account> userLogin(String phone, String code) {
-        QueryWrapper<Account> query = new QueryWrapper<Account>();
-        Account account = accountMapper.selectOne(query);
         RespResult<Account> result = new RespResult<Account>();
+        if (phone.isEmpty()) {
+            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setMessage("手机号不能为空");
+            return result;
+        } else if (!code.equals("80008")) {
+            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setMessage("验证码不正确");
+            return result;
+        }
+        QueryWrapper<Account> query = new QueryWrapper<Account>();
+        query.eq("phone", phone);
+        Account account = accountMapper.selectOne(query);
         if (account == null) {
             result.setStatus(RespErrorCode.ERROR.getMessage());
             result.setMessage(RespErrorCode.UNREGISTER.getMessage());
@@ -81,6 +91,7 @@ public class TotalActions {
     public Account tokenIsVaild(String token) {
         QueryWrapper<Account> query = new QueryWrapper<Account>();
         query.eq("token", token);
+        query.select("id", "nickname"); // 指定要返回的字段
         query.last("limit 1");
         return accountMapper.selectOne(query);
     }
