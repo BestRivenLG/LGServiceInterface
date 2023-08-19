@@ -102,7 +102,7 @@ public class NioWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFr
 
     private void handCloseRemoveChannel(ChannelHandlerContext ctx) {
         ctx.close();
-        webSocketChannelPool.removeChannel(ctx.channel());
+//        webSocketChannelPool.removeChannel(ctx.channel());
     }
 
     /**
