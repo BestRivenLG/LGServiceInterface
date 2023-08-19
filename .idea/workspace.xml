@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a1b1a89-ede6-46f2-8290-2ffa474637ec" name="Changes" comment="" />
+    <list default="true" id="0a1b1a89-ede6-46f2-8290-2ffa474637ec" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/NioWebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/NioWebSocketHandler.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -76,46 +79,15 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="NONE" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
-          <line>83</line>
-          <log-expression expression="     QueryWrapper&lt;Account&gt; query = new QueryWrapper&lt;Account&gt;();&#10;//        query.eq(&quot;token&quot;, token);&#10;//        query.last(&quot;limit 1&quot;);&#10;" language="JAVA" />
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
           <line>28</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/NettyServerHandler.java</url>
-          <line>53</line>
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
-          <line>37</line>
-          <option name="timeStamp" value="40" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/NettyServerHandler.java</url>
-          <line>41</line>
-          <option name="timeStamp" value="55" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/action/NioWebSocketHandler.java</url>
-          <line>102</line>
-          <option name="timeStamp" value="73" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/NioWebSocketHandler.java</url>
-          <line>96</line>
+          <line>98</line>
           <option name="timeStamp" value="74" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/NioWebSocketHandler.java</url>
-          <line>58</line>
-          <option name="timeStamp" value="75" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

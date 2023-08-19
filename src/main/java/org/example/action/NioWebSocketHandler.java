@@ -1,6 +1,7 @@
 package org.example.action;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
+@ChannelHandler.Sharable
 public class NioWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFrame> {
 
     @Autowired
