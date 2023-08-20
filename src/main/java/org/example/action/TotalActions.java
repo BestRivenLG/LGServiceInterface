@@ -6,11 +6,7 @@ import org.example.entity.RespErrorCode;
 import org.example.entity.RespResult;
 import org.example.entity.SecureRandomStringGenerator;
 import org.example.mapper.AccountMapper;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -20,6 +16,7 @@ public class TotalActions {
     @Resource
     AccountMapper accountMapper;
 
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping("/userLogin")
     public RespResult<Account> userLogin(String phone, String code) {
         RespResult<Account> result = new RespResult<Account>();
@@ -46,6 +43,7 @@ public class TotalActions {
         return result;
     }
 
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping("/userRegister")
     public RespResult<Account> userRegister(String phone, String nickname) {
         QueryWrapper<Account> query = new QueryWrapper<Account>();
@@ -72,6 +70,7 @@ public class TotalActions {
     }
 
     // 查看我的用户信息
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/myUserInfo")
     public RespResult<Account> myUserInfo(@RequestHeader("token") String token) {
         Account account = tokenIsVaild(token);
