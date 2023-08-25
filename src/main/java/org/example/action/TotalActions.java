@@ -6,6 +6,7 @@ import org.example.entity.RespErrorCode;
 import org.example.entity.RespResult;
 import org.example.entity.SecureRandomStringGenerator;
 import org.example.mapper.AccountMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.annotation.Resource;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 @RestController
 @RequestMapping("/api")
@@ -83,6 +87,26 @@ public class TotalActions {
         }
         RespResult<Account> result = new RespResult<Account>();
         result.setData(account);
+        result.setStatus(RespErrorCode.OK.getMessage());
+        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        return result;
+    }
+
+    @Value("${server.port}")
+    private int serPort;
+
+    @GetMapping("/hello")
+    public RespResult<String> hello() {
+        RespResult<String> result = new RespResult<String>();
+        String ress = "";
+        try {
+            InetAddress localHost = InetAddress.getLocalHost();
+            String ipAddress = localHost.getHostAddress();
+            ress = ipAddress + ":" + serPort;
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        result.setData(ress);
         result.setStatus(RespErrorCode.OK.getMessage());
         result.setMessage(RespErrorCode.SUCCESS.getMessage());
         return result;
