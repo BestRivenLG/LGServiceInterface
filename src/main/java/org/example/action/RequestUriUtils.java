@@ -1,5 +1,8 @@
 package org.example.action;
 
+import org.example.entity.Account;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +45,16 @@ public class RequestUriUtils {
             return uri;
 
         return uri.substring(0, idx);
+    }
+
+    static boolean tokenIsVail(HttpServletRequest httpServletRequest){
+        {
+            Account account = (Account) httpServletRequest.getSession().getAttribute("user");
+            boolean isVail = account != null;
+            String content = isVail ? "已登录" : "未登录";
+            System.out.println(content);
+            return  isVail;
+        }
     }
 
 }
