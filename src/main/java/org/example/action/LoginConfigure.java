@@ -15,5 +15,6 @@ public class LoginConfigure implements WebMvcConfigurer {
         InterceptorRegistration registion = registry.addInterceptor(new UserLoginInterceptor());
         registion.addPathPatterns("/**");
         registion.excludePathPatterns("/api/userLogin");
+        registion.excludePathPatterns("/api/tokenInvail");
     }
 }

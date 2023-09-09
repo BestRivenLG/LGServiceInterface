@@ -1,6 +1,7 @@
 package org.example.action;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.netty.handler.codec.http.HttpObject;
 import org.example.entity.Account;
 import org.example.mapper.AccountMapper;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,9 +21,9 @@ public class UserLoginInterceptor implements HandlerInterceptor {
         if (isVaild) {
             return  true;
         } else {
+            response.sendRedirect("/api/tokenInvail");
             return  false;
         }
-//        return getHeaderToken(request);
     }
 
     @Override
@@ -35,21 +36,20 @@ public class UserLoginInterceptor implements HandlerInterceptor {
         System.out.println("执行了拦截器的afterCompletion方法");
     }
 
-    @Resource
-    AccountMapper accountMapper;
+//    @Resource
+//    AccountMapper accountMapper;
 
-    private Account tokenIsVaild(String token) {
-        QueryWrapper<Account> query = new QueryWrapper<Account>();
-        query.eq("token", token);
-        query.select("id", "nickname"); // 指定要返回的字段
-        query.last("limit 1");
-        return accountMapper.selectOne(query);
-    }
+//    private Account tokenIsVaild(String token) {
+//        QueryWrapper<Account> query = new QueryWrapper<Account>();
+//        query.eq("token", token);
+//        query.select("id", "nickname"); // 指定要返回的字段
+//        query.last("limit 1");
+//        return accountMapper.selectOne(query);
+//    }
 
-    private Boolean getHeaderToken(HttpServletRequest httpServletRequest){
+    private boolean getHeaderToken(HttpServletRequest httpServletRequest){
         {
-            String token = httpServletRequest.getHeader("token");
-            Account account = tokenIsVaild(token);
+            Account account = (Account) httpServletRequest.getSession().getAttribute("user");
             boolean isVail = account != null;
             String content = isVail ? "已登录" : "未登录";
             System.out.println(content);

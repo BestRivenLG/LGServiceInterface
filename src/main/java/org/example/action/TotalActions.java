@@ -1,6 +1,7 @@
 package org.example.action;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.apache.ibatis.jdbc.Null;
 import org.example.entity.Account;
 import org.example.entity.RespErrorCode;
 import org.example.entity.RespResult;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -28,7 +30,7 @@ public class TotalActions {
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping("/userLogin")
-    public RespResult<Account> userLogin(String phone, String code) {
+    public RespResult<Account> userLogin(String phone, String code, HttpServletRequest request) {
         RespResult<Account> result = new RespResult<Account>();
         if (phone.isEmpty()) {
             result.setStatus(RespErrorCode.ERROR.getMessage());
@@ -46,10 +48,31 @@ public class TotalActions {
             result.setStatus(RespErrorCode.ERROR.getMessage());
             result.setMessage(RespErrorCode.UNREGISTER.getMessage());
         } else  {
+            request.getSession().setAttribute("user", account);
             result.setStatus(RespErrorCode.OK.getMessage());
             result.setMessage(RespErrorCode.SUCCESS.getMessage());
         }
         result.setData(account);
+        return result;
+    }
+
+    @GetMapping("/userLogout")
+    public RespResult<String> userLogout(@RequestHeader("token") String token, HttpServletRequest request) {
+        request.getSession().setAttribute("user", null);
+        RespResult result = new RespResult<String>();
+        result.setData("退出登录成功");
+        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        result.setStatus(RespErrorCode.OK.getMessage());
+        return result;
+    }
+
+    @GetMapping("/tokenInvail")
+    public RespResult<Account> tokenInvail(HttpServletRequest request) {
+        request.getSession().setAttribute("user", null);
+        RespResult result = new RespResult<Account>();
+        result.setData(null);
+        result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
+        result.setStatus(RespErrorCode.ERROR.getMessage());
         return result;
     }
 
