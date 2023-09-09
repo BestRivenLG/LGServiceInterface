@@ -34,5 +34,5 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         System.out.println("执行了拦截器的afterCompletion方法");
     }
-    
+
 }
