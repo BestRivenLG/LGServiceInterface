@@ -17,8 +17,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("执行了拦截器的preHandle方法");
-        boolean isVaild = getHeaderToken(request);
-        if (isVaild) {
+        if (tokenIsVail(request)) {
             return  true;
         } else {
             response.sendRedirect("/api/tokenInvail");
@@ -36,18 +35,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
         System.out.println("执行了拦截器的afterCompletion方法");
     }
 
-//    @Resource
-//    AccountMapper accountMapper;
-
-//    private Account tokenIsVaild(String token) {
-//        QueryWrapper<Account> query = new QueryWrapper<Account>();
-//        query.eq("token", token);
-//        query.select("id", "nickname"); // 指定要返回的字段
-//        query.last("limit 1");
-//        return accountMapper.selectOne(query);
-//    }
-
-    private boolean getHeaderToken(HttpServletRequest httpServletRequest){
+    private boolean tokenIsVail(HttpServletRequest httpServletRequest){
         {
             Account account = (Account) httpServletRequest.getSession().getAttribute("user");
             boolean isVail = account != null;
