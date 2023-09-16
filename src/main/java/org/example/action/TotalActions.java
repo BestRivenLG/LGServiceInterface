@@ -2,10 +2,7 @@ package org.example.action;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.ibatis.jdbc.Null;
-import org.example.entity.Account;
-import org.example.entity.RespErrorCode;
-import org.example.entity.RespResult;
-import org.example.entity.SecureRandomStringGenerator;
+import org.example.entity.*;
 import org.example.mapper.AccountMapper;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -67,10 +64,9 @@ public class TotalActions {
     }
 
     @GetMapping("/tokenInvail")
-    public RespResult<Account> tokenInvail(HttpServletRequest request) {
+    public RespEmptyResult tokenInvail(HttpServletRequest request) {
         request.getSession().setAttribute("user", null);
-        RespResult result = new RespResult<Account>();
-        result.setData(null);
+        RespEmptyResult result = new RespEmptyResult();
         result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
         result.setStatus(RespErrorCode.ERROR.getMessage());
         return result;
