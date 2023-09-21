@@ -7,6 +7,7 @@ import org.example.entity.RespEmptyResult;
 import org.example.entity.RespErrorCode;
 import org.example.entity.RespResult;
 import org.example.mapper.AccountMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,6 +25,8 @@ public class UserLoginInterceptor implements HandlerInterceptor {
         if (RequestUriUtils.tokenIsVail(request)) {
             return  true;
         } else {
+            String token = request.getHeader("token");
+            if (!token.isEmpty()) { return true; }
             RespEmptyResult result = new RespEmptyResult();
             result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
             result.setStatus(RespErrorCode.ERROR.getMessage());
@@ -32,9 +35,6 @@ public class UserLoginInterceptor implements HandlerInterceptor {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json");
             response.getWriter().write(errorResponseJson);
-
-
-//            response.sendRedirect("/api/tokenInvail");
             return  false;
         }
     }

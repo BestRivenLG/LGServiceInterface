@@ -1,6 +1,8 @@
 package org.example.action;
 
+import io.netty.channel.ChannelHandler;
 import org.example.entity.Account;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -47,7 +49,7 @@ public class RequestUriUtils {
         return uri.substring(0, idx);
     }
 
-    static boolean tokenIsVail(HttpServletRequest httpServletRequest){
+    public static boolean tokenIsVail(HttpServletRequest httpServletRequest) {
         {
             Account account = (Account) httpServletRequest.getSession().getAttribute("user");
             boolean isVail = account != null;

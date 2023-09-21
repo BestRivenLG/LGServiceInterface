@@ -101,14 +101,15 @@ public class TotalActions {
     // 查看我的用户信息
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/myUserInfo")
-    public RespResult<Account> myUserInfo(@RequestHeader("token") String token) {
-        Account account = tokenIsVaild(token);
+    public RespResult<Account> myUserInfo(@RequestHeader("token") String token, HttpServletRequest request) {
+        Account account = tokenIsVaild(request);
         if (account == null) {
             RespResult<Account> result = new RespResult<Account>();
             result.setStatus(RespErrorCode.ERROR.getMessage());
             result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
             return result;
         }
+        request.getSession().setAttribute("user", account);
         RespResult<Account> result = new RespResult<Account>();
         result.setData(account);
         result.setStatus(RespErrorCode.OK.getMessage());
@@ -136,12 +137,15 @@ public class TotalActions {
         return result;
     }
 
-    public Account tokenIsVaild(String token) {
+    public Account tokenIsVaild(HttpServletRequest request) {
+        String token = request.getHeader("token");
         QueryWrapper<Account> query = new QueryWrapper<Account>();
         query.eq("token", token);
         query.select("id", "nickname"); // 指定要返回的字段
         query.last("limit 1");
-        return accountMapper.selectOne(query);
+        Account account =  accountMapper.selectOne(query);
+        request.getSession().setAttribute("user", account);
+        return account;
     }
 
 }
