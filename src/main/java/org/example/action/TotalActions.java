@@ -5,6 +5,7 @@ import org.apache.ibatis.jdbc.Null;
 import org.example.entity.*;
 import org.example.mapper.AccountMapper;
 
+import org.example.mapper.PhotoMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,14 +17,23 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 public class TotalActions {
     @Resource
     AccountMapper accountMapper;
+
+    @Resource
+    PhotoMapper photoMapper;
+
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping("/userLogin")
@@ -137,6 +147,7 @@ public class TotalActions {
         return result;
     }
 
+
     public Account tokenIsVaild(HttpServletRequest request) {
         String token = request.getHeader("token");
         QueryWrapper<Account> query = new QueryWrapper<Account>();
@@ -146,6 +157,21 @@ public class TotalActions {
         Account account =  accountMapper.selectOne(query);
         request.getSession().setAttribute("user", account);
         return account;
+    }
+
+
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
+    @GetMapping("/photoList")
+    public RespResult<Map<String, List<Photo>>> getPhotoList() {
+        RespResult<Map<String, List<Photo>>> result = new RespResult<>();
+        QueryWrapper<Photo> query = new QueryWrapper<Photo>();
+        List<Photo> photos = photoMapper.selectList(query);
+        Map<String, List<Photo>> maps = new HashMap<>();
+        maps.put("list", photos);
+        result.setData(maps);
+        result.setStatus(RespErrorCode.OK.getMessage());
+        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        return result;
     }
 
 }
