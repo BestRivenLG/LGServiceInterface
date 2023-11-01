@@ -117,6 +117,8 @@ public class TotalActions {
             if (code != null) {
                 account.setValid(code);
             }
+
+            account.setAvatar("https://tenfei05.cfp.cn/creative/vcg/800/new/VCG211185552079.jpg");
             String nickName = SecureRandomStringGenerator.generateLimitString(4);
             account.setNickname("user" + nickName);
             String token = SecureRandomStringGenerator.generateRandomString();
