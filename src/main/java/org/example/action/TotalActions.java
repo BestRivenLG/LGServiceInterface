@@ -59,6 +59,7 @@ public class TotalActions {
         if (account == null) {
             result.setStatus(RespErrorCode.ERROR.getMessage());
             result.setMessage(RespErrorCode.UNREGISTER.getMessage());
+            return result;
         } else  {
             String validCode = RequestUriUtils.mdfive(code);
             if (account.getValid().equals(validCode) == false) {
