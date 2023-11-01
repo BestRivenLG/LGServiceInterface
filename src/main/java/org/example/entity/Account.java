@@ -19,6 +19,8 @@ public class Account {
 
     private String token;
 
+    private String valid;
+
     public Long getId() {
         return id;
     }
@@ -57,5 +59,13 @@ public class Account {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getValid() {
+        return valid;
+    }
+
+    public void setValid(String valid) {
+        this.valid = valid;
     }
 }

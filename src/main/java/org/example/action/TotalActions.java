@@ -5,6 +5,7 @@ import org.apache.ibatis.jdbc.Null;
 import org.example.entity.*;
 import org.example.mapper.AccountMapper;
 
+import org.example.mapper.BannerMapper;
 import org.example.mapper.PhotoMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,17 +36,21 @@ public class TotalActions {
     PhotoMapper photoMapper;
 
 
+    @Resource
+    BannerMapper bannerMapper;
+
+
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping("/userLogin")
     public RespResult<Account> userLogin(String phone, String code, HttpServletRequest request) {
         RespResult<Account> result = new RespResult<Account>();
         if (phone.isEmpty()) {
             result.setStatus(RespErrorCode.ERROR.getMessage());
-            result.setMessage("手机号不能为空");
+            result.setMessage("The phone number cannot be empty");
             return result;
-        } else if (!code.equals("80008")) {
+        } else if (code.isEmpty()) {
             result.setStatus(RespErrorCode.ERROR.getMessage());
-            result.setMessage("验证码不正确");
+            result.setMessage("The password cannot be empty");
             return result;
         }
         QueryWrapper<Account> query = new QueryWrapper<Account>();
@@ -55,6 +60,13 @@ public class TotalActions {
             result.setStatus(RespErrorCode.ERROR.getMessage());
             result.setMessage(RespErrorCode.UNREGISTER.getMessage());
         } else  {
+            String validCode = RequestUriUtils.mdfive(code);
+            if (account.getValid().equals(validCode) == false) {
+                result.setStatus(RespErrorCode.ERROR.getMessage());
+                result.setMessage("Incorrect password");
+                return result;
+            }
+            account.setValid(null);
             request.getSession().setAttribute("user", account);
             result.setStatus(RespErrorCode.OK.getMessage());
             result.setMessage(RespErrorCode.SUCCESS.getMessage());
@@ -67,7 +79,7 @@ public class TotalActions {
     public RespResult<String> userLogout(@RequestHeader("token") String token, HttpServletRequest request) {
         request.getSession().setAttribute("user", null);
         RespResult result = new RespResult<String>();
-        result.setData("退出登录成功");
+        result.setData("Log out successfully");
         result.setMessage(RespErrorCode.SUCCESS.getMessage());
         result.setStatus(RespErrorCode.OK.getMessage());
         return result;
@@ -84,7 +96,14 @@ public class TotalActions {
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping("/userRegister")
-    public RespResult<Account> userRegister(String phone, String nickname) {
+    public RespResult<Account> userRegister(String phone, String password) {
+        if (phone.isEmpty() || password.isEmpty()) {
+            RespResult<Account> result = new RespResult<Account>();
+            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setMessage("The format of the user name or password is incorrect");
+            return result;
+        }
+
         QueryWrapper<Account> query = new QueryWrapper<Account>();
         query.eq("phone", phone);
         query.last("limit 1");
@@ -93,7 +112,13 @@ public class TotalActions {
         if (account == null) {
             account = new Account();
             account.setPhone(phone);
-            account.setNickname(nickname);
+
+            String code = RequestUriUtils.mdfive(password);
+            if (code != null) {
+                account.setValid(code);
+            }
+            String nickName = SecureRandomStringGenerator.generateLimitString(4);
+            account.setNickname("user" + nickName);
             String token = SecureRandomStringGenerator.generateRandomString();
             account.setToken(token);
             try {
@@ -101,12 +126,17 @@ public class TotalActions {
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
-        }
-        result.setData(account);
-        result.setStatus(RespErrorCode.OK.getMessage());
-        result.setMessage(RespErrorCode.SUCCESS.getMessage());
-        return result;
-    }
+            account.setValid(null);
+            result.setData(account);
+            result.setStatus(RespErrorCode.OK.getMessage());
+            result.setMessage(RespErrorCode.SUCCESS.getMessage());
+            return result;
+
+        } else {
+            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setMessage("The user is registered");
+            return  result;
+        }    }
 
     // 查看我的用户信息
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
@@ -119,8 +149,11 @@ public class TotalActions {
             result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
             return result;
         }
+        account.setToken(null);
         request.getSession().setAttribute("user", account);
         RespResult<Account> result = new RespResult<Account>();
+        account.setPhone(null);
+        account.setValid(null);
         result.setData(account);
         result.setStatus(RespErrorCode.OK.getMessage());
         result.setMessage(RespErrorCode.SUCCESS.getMessage());
@@ -155,7 +188,6 @@ public class TotalActions {
 //        query.select("id", "nickname"); // 指定要返回的字段
         query.last("limit 1");
         Account account =  accountMapper.selectOne(query);
-        account.setToken(null);
         request.getSession().setAttribute("user", account);
         return account;
     }
@@ -169,6 +201,20 @@ public class TotalActions {
         List<Photo> photos = photoMapper.selectList(query);
         Map<String, List<Photo>> maps = new HashMap<>();
         maps.put("list", photos);
+        result.setData(maps);
+        result.setStatus(RespErrorCode.OK.getMessage());
+        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        return result;
+    }
+
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
+    @GetMapping("/bannerList")
+    public RespResult<Map<String, List<BannerEntity>>> getBannerList() {
+        RespResult<Map<String, List<BannerEntity>>> result = new RespResult<>();
+        QueryWrapper<BannerEntity> query = new QueryWrapper<BannerEntity>();
+        List<BannerEntity> banners = bannerMapper.selectList(query);
+        Map<String, List<BannerEntity>> maps = new HashMap<>();
+        maps.put("list", banners);
         result.setData(maps);
         result.setStatus(RespErrorCode.OK.getMessage());
         result.setMessage(RespErrorCode.SUCCESS.getMessage());

@@ -5,6 +5,8 @@ import org.example.entity.Account;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +58,36 @@ public class RequestUriUtils {
             String content = isVail ? "已登录" : "未登录";
             System.out.println(content);
             return  isVail;
+        }
+    }
+
+    public static String mdfive(String input) {
+        try {
+            // 创建MessageDigest对象，指定算法为MD5
+            MessageDigest md = MessageDigest.getInstance("MD5");
+
+            // 将字符串转换为字节数组
+            byte[] bytes = input.getBytes();
+
+            // 更新MessageDigest以处理字节数组
+            md.update(bytes);
+
+            // 计算MD5哈希值
+            byte[] digest = md.digest();
+
+            // 将字节数组转换为十六进制字符串
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : digest) {
+                hexString.append(String.format("%02x", b));
+            }
+
+            String string = hexString.toString();
+            // 打印MD5哈希值
+            System.out.println("MD5 Hash: " + string);
+            return string;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
