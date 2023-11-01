@@ -152,9 +152,10 @@ public class TotalActions {
         String token = request.getHeader("token");
         QueryWrapper<Account> query = new QueryWrapper<Account>();
         query.eq("token", token);
-        query.select("id", "nickname"); // 指定要返回的字段
+//        query.select("id", "nickname"); // 指定要返回的字段
         query.last("limit 1");
         Account account =  accountMapper.selectOne(query);
+        account.setToken(null);
         request.getSession().setAttribute("user", account);
         return account;
     }

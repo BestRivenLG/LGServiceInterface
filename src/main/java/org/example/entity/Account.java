@@ -15,6 +15,8 @@ public class Account {
 
     private String nickname;
 
+    private String avatar;
+
     private String token;
 
     public Long getId() {
@@ -47,5 +49,13 @@ public class Account {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
