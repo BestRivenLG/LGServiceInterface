@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -317,6 +318,47 @@ public class TotalActions {
         data.put("result", collect);
         result.setData(data);
         result.setMessage(message);
+        result.setStatus(RespErrorCode.OK.getMessage());
+        return  result;
+    }
+
+
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
+    @GetMapping("/myPhotoCollects")
+    public RespResult<Map<String, List<Photo>>> myCollectList(@RequestHeader("token") String token, HttpServletRequest request) {
+        RespResult<Map<String, List<Photo>>> result = new RespResult<>();
+        Account account = tokenIsVaild(request);
+        if (account == null) {
+            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
+            return result;
+        }
+
+        QueryWrapper<PhotoCollect> query = new QueryWrapper<PhotoCollect>();
+        query.eq("user_id", account.getId());
+        List<PhotoCollect> collects = photoCollectMapper.selectList(query);
+        List<Long> listIds = collects.stream()
+                .map(collect -> {
+                    return collect.getPhotoId();
+                })
+                .collect(Collectors.toList());
+
+        Map<String, List<Photo>> maps = new HashMap<>();
+
+        if (!listIds.isEmpty()) {
+            List<Photo> list = photoMapper.selectBatchIds(listIds);
+            for (Photo otp : list) {
+                otp.setCollect(true);
+            }
+            maps.put("list", list);
+
+
+        } else {
+            maps.put("list", new ArrayList<Photo>());
+
+        }
+        result.setData(maps);
+        result.setMessage(RespErrorCode.SUCCESS.getMessage());
         result.setStatus(RespErrorCode.OK.getMessage());
         return  result;
     }
