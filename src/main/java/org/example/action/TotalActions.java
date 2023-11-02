@@ -223,6 +223,44 @@ public class TotalActions {
     }
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
+    @GetMapping("/photoList/v2")
+    public RespResult<IPage<Photo>> getPhotoListV1(@RequestHeader("token") String token,
+                                                   HttpServletRequest request,
+                                                   @RequestParam(value = "id", required = false) Integer id,
+                                                   @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                   @RequestParam(value = "size", defaultValue = "5") Integer size) {
+        RespResult<IPage<Photo>> result = new RespResult<>();
+
+        Account account = tokenIsVaild(request);
+        if (account == null) {
+            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
+            return result;
+        }
+
+        QueryWrapper<Photo> query = new QueryWrapper<Photo>();
+        if (id != null) {
+            /// 字段需要跟数据库字段对应，不能使用驼峰 categoryId, 查询异常
+            query.eq("category_id", id);
+        }
+
+        List<Long> photoIds = getMyCollectionPhotoIds(account);
+
+        Page<Photo> pageMap = new Page<>(page, size);
+        IPage<Photo> pagePhoto = photoMapper.selectPage(pageMap, query);
+        List<Photo> photoRecords = pagePhoto.getRecords();
+        for(Photo oto: photoRecords) {
+            if (photoIds.contains(oto.getId())) {
+                oto.setCollect(true);
+            }
+        }
+        result.setData(pagePhoto);
+        result.setStatus(RespErrorCode.OK.getMessage());
+        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        return result;
+    }
+
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/bannerList")
     public RespResult<Map<String, List<BannerEntity>>> getBannerList(Integer id) {
         RespResult<Map<String, List<BannerEntity>>> result = new RespResult<>();
@@ -337,12 +375,7 @@ public class TotalActions {
         QueryWrapper<PhotoCollect> query = new QueryWrapper<PhotoCollect>();
         query.eq("user_id", account.getId());
         List<PhotoCollect> collects = photoCollectMapper.selectList(query);
-        List<Long> listIds = collects.stream()
-                .map(collect -> {
-                    return collect.getPhotoId();
-                })
-                .collect(Collectors.toList());
-
+        List<Long> listIds = mapPhotoIds(collects);
         Map<String, List<Photo>> maps = new HashMap<>();
 
         if (!listIds.isEmpty()) {
@@ -362,5 +395,24 @@ public class TotalActions {
         result.setStatus(RespErrorCode.OK.getMessage());
         return  result;
     }
+
+
+    public List<Long>getMyCollectionPhotoIds(Account account) {
+        QueryWrapper<PhotoCollect> query = new QueryWrapper<PhotoCollect>();
+        query.eq("user_id", account.getId());
+        List<PhotoCollect> collects = photoCollectMapper.selectList(query);
+        List<Long> listIds = mapPhotoIds(collects);
+        return listIds;
+    }
+
+    public List<Long>mapPhotoIds(List<PhotoCollect> collects) {
+        List<Long> listIds = collects.stream()
+                .map(collect -> {
+                    return collect.getPhotoId();
+                })
+                .collect(Collectors.toList());
+        return listIds;
+    }
+
 
 }
