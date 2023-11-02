@@ -1,13 +1,13 @@
 package org.example.action;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.ibatis.jdbc.Null;
 import org.example.entity.*;
-import org.example.mapper.AccountMapper;
+import org.example.mapper.*;
 
-import org.example.mapper.BannerMapper;
-import org.example.mapper.PhotoCategoryMapper;
-import org.example.mapper.PhotoMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +41,10 @@ public class TotalActions {
 
     @Resource
     PhotoCategoryMapper categoryMapper;
+
+    @Resource
+    PhotoCollectMapper photoCollectMapper;
+
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping("/userLogin")
@@ -198,20 +202,20 @@ public class TotalActions {
         return account;
     }
 
-
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/photoList")
-    public RespResult<Map<String, List<Photo>>> getPhotoList(Integer id) {
-        RespResult<Map<String, List<Photo>>> result = new RespResult<>();
+    public RespResult<IPage<Photo>> getPhotoList(@RequestParam(value = "id", required = false) Integer id,
+                                             @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                             @RequestParam(value = "size", defaultValue = "5") Integer size) {
+    RespResult<IPage<Photo>> result = new RespResult<>();
         QueryWrapper<Photo> query = new QueryWrapper<Photo>();
         if (id != null) {
             /// 字段需要跟数据库字段对应，不能使用驼峰 categoryId, 查询异常
             query.eq("category_id", id);
         }
-        List<Photo> photos = photoMapper.selectList(query);
-        Map<String, List<Photo>> maps = new HashMap<>();
-        maps.put("list", photos);
-        result.setData(maps);
+        Page<Photo> pageMap = new Page<>(page, size);
+        IPage<Photo> pagePhoto = photoMapper.selectPage(pageMap, query);
+        result.setData(pagePhoto);
         result.setStatus(RespErrorCode.OK.getMessage());
         result.setMessage(RespErrorCode.SUCCESS.getMessage());
         return result;
@@ -243,6 +247,78 @@ public class TotalActions {
         result.setStatus(RespErrorCode.OK.getMessage());
         result.setMessage(RespErrorCode.SUCCESS.getMessage());
         return result;
+    }
+
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
+    @GetMapping("/photoSearch")
+    public RespResult<Map<String, List<Photo>>> searchPhotos(String text) {
+        RespResult<Map<String, List<Photo>>> result = new RespResult<>();
+        if (text.isEmpty()) {
+            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setMessage("Please enter the text you want to search for");
+            return result;
+        }
+        QueryWrapper<Photo> query = new QueryWrapper<Photo>();
+        query.like("title", text);
+        List<Photo> cates = photoMapper.selectList(query);
+        Map<String, List<Photo>> maps = new HashMap<>();
+        maps.put("list", cates);
+        result.setData(maps);
+        result.setStatus(RespErrorCode.OK.getMessage());
+        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        return result;
+    }
+
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
+    @GetMapping("/photoCollect")
+    @PostMapping("/photoCollect")
+    public RespResult<Map<String, Boolean>> collectOperation(@RequestHeader("token") String token, HttpServletRequest request, Long photoId, Boolean collect) {
+        RespResult<Map<String, Boolean>> result = new RespResult<>();
+        Account account = tokenIsVaild(request);
+        if (account == null) {
+            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
+            return result;
+        }
+
+        if (photoId == null || collect == null) {
+            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setMessage("Parameter exception");
+            return result;
+        }
+
+        Photo photo = photoMapper.selectById(photoId);
+        if (photo == null) {
+            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setMessage("Resource does not exist");
+            return result;
+        }
+
+        QueryWrapper<PhotoCollect> query = new QueryWrapper<PhotoCollect>();
+        query.eq("photo_id", photoId);
+        query.eq("user_id", account.getId());
+        PhotoCollect collects = photoCollectMapper.selectOne(query);
+
+        if (collects == null) {
+            if (collect) {
+                PhotoCollect colletion = new PhotoCollect();
+                colletion.setUserId(account.getId());
+                colletion.setPhotoId(photoId);
+                photoCollectMapper.insert(colletion);
+            }
+        } else {
+            if (!collect) {
+                photoCollectMapper.deleteById(collects.getId());
+            }
+        }
+
+        String message = collect ? "Successful collection" : "Uncollect successfully";
+        Map<String, Boolean> data = new HashMap<>();
+        data.put("result", collect);
+        result.setData(data);
+        result.setMessage(message);
+        result.setStatus(RespErrorCode.OK.getMessage());
+        return  result;
     }
 
 }

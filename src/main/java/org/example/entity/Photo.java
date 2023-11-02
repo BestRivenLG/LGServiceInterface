@@ -3,6 +3,7 @@ package org.example.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 @TableName("photos")
 public class Photo {
@@ -13,7 +14,11 @@ public class Photo {
 
     private String icon;
 
-    private Float ratio;
+    private float ratio;
+
+    private String title;
+
+    private Boolean isCollect;
 
     public Long getId() {
         return id;
@@ -39,11 +44,27 @@ public class Photo {
         this.icon = icon;
     }
 
-    public Float getRatio() {
+    public float getRatio() {
         return ratio;
     }
 
-    public void setRatio(Float ratio) {
+    public void setRatio(float ratio) {
         this.ratio = ratio;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Boolean getCollect() {
+        return isCollect;
+    }
+
+    public void setCollect(Boolean collect) {
+        isCollect = collect;
     }
 }
