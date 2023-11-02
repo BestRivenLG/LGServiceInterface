@@ -6,6 +6,7 @@ import org.example.entity.*;
 import org.example.mapper.AccountMapper;
 
 import org.example.mapper.BannerMapper;
+import org.example.mapper.PhotoCategoryMapper;
 import org.example.mapper.PhotoMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,10 +36,11 @@ public class TotalActions {
     @Resource
     PhotoMapper photoMapper;
 
-
     @Resource
     BannerMapper bannerMapper;
 
+    @Resource
+    PhotoCategoryMapper categoryMapper;
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping("/userLogin")
@@ -60,7 +62,7 @@ public class TotalActions {
             result.setStatus(RespErrorCode.ERROR.getMessage());
             result.setMessage(RespErrorCode.UNREGISTER.getMessage());
             return result;
-        } else  {
+        } else {
             String validCode = RequestUriUtils.mdfive(code);
             if (account.getValid().equals(validCode) == false) {
                 result.setStatus(RespErrorCode.ERROR.getMessage());
@@ -138,8 +140,9 @@ public class TotalActions {
         } else {
             result.setStatus(RespErrorCode.ERROR.getMessage());
             result.setMessage("The user is registered");
-            return  result;
-        }    }
+            return result;
+        }
+    }
 
     // 查看我的用户信息
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
@@ -190,7 +193,7 @@ public class TotalActions {
         query.eq("token", token);
 //        query.select("id", "nickname"); // 指定要返回的字段
         query.last("limit 1");
-        Account account =  accountMapper.selectOne(query);
+        Account account = accountMapper.selectOne(query);
         request.getSession().setAttribute("user", account);
         return account;
     }
@@ -198,9 +201,13 @@ public class TotalActions {
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/photoList")
-    public RespResult<Map<String, List<Photo>>> getPhotoList() {
+    public RespResult<Map<String, List<Photo>>> getPhotoList(Integer id) {
         RespResult<Map<String, List<Photo>>> result = new RespResult<>();
         QueryWrapper<Photo> query = new QueryWrapper<Photo>();
+        if (id != null) {
+            /// 字段需要跟数据库字段对应，不能使用驼峰 categoryId, 查询异常
+            query.eq("category_id", id);
+        }
         List<Photo> photos = photoMapper.selectList(query);
         Map<String, List<Photo>> maps = new HashMap<>();
         maps.put("list", photos);
@@ -212,12 +219,26 @@ public class TotalActions {
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/bannerList")
-    public RespResult<Map<String, List<BannerEntity>>> getBannerList() {
+    public RespResult<Map<String, List<BannerEntity>>> getBannerList(Integer id) {
         RespResult<Map<String, List<BannerEntity>>> result = new RespResult<>();
         QueryWrapper<BannerEntity> query = new QueryWrapper<BannerEntity>();
         List<BannerEntity> banners = bannerMapper.selectList(query);
         Map<String, List<BannerEntity>> maps = new HashMap<>();
         maps.put("list", banners);
+        result.setData(maps);
+        result.setStatus(RespErrorCode.OK.getMessage());
+        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        return result;
+    }
+
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
+    @GetMapping("/photoCategory")
+    public RespResult<Map<String, List<PhotoCategory>>> getPhotoCategory() {
+        RespResult<Map<String, List<PhotoCategory>>> result = new RespResult<>();
+        QueryWrapper<PhotoCategory> query = new QueryWrapper<PhotoCategory>();
+        List<PhotoCategory> cates = categoryMapper.selectList(query);
+        Map<String, List<PhotoCategory>> maps = new HashMap<>();
+        maps.put("list", cates);
         result.setData(maps);
         result.setStatus(RespErrorCode.OK.getMessage());
         result.setMessage(RespErrorCode.SUCCESS.getMessage());
