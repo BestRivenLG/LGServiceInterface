@@ -15,6 +15,8 @@ public class BannerEntity {
 
     String icon;
 
+    String content;
+
     public long getId() {
         return id;
     }
@@ -38,4 +40,13 @@ public class BannerEntity {
     public void setIcon(String icon) {
         this.icon = icon;
     }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
 }
