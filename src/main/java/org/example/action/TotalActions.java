@@ -191,7 +191,6 @@ public class TotalActions {
         return result;
     }
 
-
     public Account tokenIsVaild(HttpServletRequest request) {
         String token = request.getHeader("token");
         QueryWrapper<Account> query = new QueryWrapper<Account>();
@@ -254,7 +253,7 @@ public class TotalActions {
                 oto.setCollect(true);
             }
         }
-        result.setData(pagePhoto);
+//        result.setData(pagePhoto);
         result.setStatus(RespErrorCode.OK.getMessage());
         result.setMessage(RespErrorCode.SUCCESS.getMessage());
         return result;
