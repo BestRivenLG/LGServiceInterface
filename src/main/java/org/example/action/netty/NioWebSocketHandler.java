@@ -1,4 +1,4 @@
-package org.example.action;
+package org.example.action.netty;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.netty.channel.ChannelHandler;
@@ -9,6 +9,7 @@ import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
+import org.example.config.UserLoginInterceptor;
 import org.example.entity.Account;
 import org.example.mapper.AccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,11 +81,11 @@ public class NioWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFr
      */
     private void fullHttpRequestHandler(ChannelHandlerContext ctx, FullHttpRequest request) {
         String uri = request.uri();
-        Map<String, String> params = RequestUriUtils.getParams(uri);
+        Map<String, String> params = UserLoginInterceptor.RequestUriUtils.getParams(uri);
         log.debug("客户端请求参数：{}", params);
 
         // 判断请求路径是否跟配置中的一致
-        if (nettyServer.getPath().equals(RequestUriUtils.getBasePath(uri))) {
+        if (nettyServer.getPath().equals(UserLoginInterceptor.RequestUriUtils.getBasePath(uri))) {
             // 因为有可能携带了参数，导致客户端一直无法返回握手包，因此在校验通过后，重置请求路径
             String token = params.get("token");
             Account account = tokenIsVaild(token);

@@ -1,4 +1,4 @@
-package org.example.action;
+package org.example.action.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;

@@ -1,12 +1,8 @@
-package org.example.entity;
+package org.example.common;
+
 import java.security.SecureRandom;
 
-public class SecureRandomStringGenerator {
-
-    public static void main(String[] args) {
-        String randomString = generateRandomString();
-        System.out.println("Random String: " + randomString);
-    }
+public class CommonTool {
 
     public static String generateRandomString() {
         SecureRandom secureRandom = new SecureRandom();
@@ -33,5 +29,4 @@ public class SecureRandomStringGenerator {
 
         return stringBuilder.toString();
     }
-
 }

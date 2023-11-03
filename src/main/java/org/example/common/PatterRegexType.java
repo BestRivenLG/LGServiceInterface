@@ -1,4 +1,4 @@
-package org.example.entity;
+package org.example.common;
 
 public enum PatterRegexType {
     USERNAME("^[a-zA-Z][a-zA-Z0-9]{3,15}$"),

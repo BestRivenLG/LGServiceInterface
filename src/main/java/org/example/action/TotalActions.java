@@ -3,8 +3,8 @@ package org.example.action;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import org.apache.ibatis.jdbc.Null;
+import org.example.common.*;
+import org.example.config.UserLoginInterceptor;
 import org.example.entity.*;
 import org.example.mapper.*;
 
@@ -19,15 +19,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @RestController
@@ -83,8 +80,8 @@ public class TotalActions {
             result.setMessage(RespErrorCode.UNREGISTER.getMessage());
             return result;
         } else {
-            String validCode = RequestUriUtils.mdfive(password);
-            if (account.getValid().equals(validCode) == false) {
+            String validCode = UserLoginInterceptor.RequestUriUtils.mdfive(password);
+            if (!account.getValid().equals(validCode)) {
                 result.setStatus(RespErrorCode.ERROR.getMessage());
                 result.setMessage("Incorrect password");
                 return result;
@@ -149,15 +146,15 @@ public class TotalActions {
             account = new Account();
             account.setPhone(username);
 
-            String code = RequestUriUtils.mdfive(password);
+            String code = UserLoginInterceptor.RequestUriUtils.mdfive(password);
             if (code != null) {
                 account.setValid(code);
             }
 
             account.setAvatar("https://tenfei05.cfp.cn/creative/vcg/800/new/VCG211185552079.jpg");
-            String nickName = SecureRandomStringGenerator.generateLimitString(4);
+            String nickName = CommonTool.generateLimitString(4);
             account.setNickname("user" + nickName);
-            String token = SecureRandomStringGenerator.generateRandomString();
+            String token = CommonTool.generateRandomString();
             account.setToken(token);
             try {
                 accountMapper.insert(account);
@@ -281,7 +278,7 @@ public class TotalActions {
                 oto.setCollect(true);
             }
         }
-//        result.setData(pagePhoto);
+        result.setData(pagePhoto);
         result.setStatus(RespErrorCode.OK.getMessage());
         result.setMessage(RespErrorCode.SUCCESS.getMessage());
         return result;

@@ -1,4 +1,4 @@
-package org.example.entity;
+package org.example.common;
 
 public enum RespErrorCode {
 

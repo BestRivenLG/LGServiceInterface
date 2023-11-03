@@ -1,6 +1,4 @@
-package org.example.action;
-
-import org.example.entity.PatterRegexType;
+package org.example.common;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

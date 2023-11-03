@@ -1,4 +1,4 @@
-package org.example.action;
+package org.example.action.netty;
 
 import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;

@@ -1,6 +1,5 @@
-package org.example.action;
+package org.example.action.netty;
 
-import io.netty.channel.*;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.nio.channels.Channel;
 @Component
 public class NioWebSocketChannelInitializer extends ChannelInitializer<SocketChannel> {
 
