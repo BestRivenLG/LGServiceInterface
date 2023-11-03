@@ -3,6 +3,9 @@ package org.example.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Getter;
+
+import java.util.List;
 
 @TableName("photos")
 public class Photo {
@@ -18,6 +21,21 @@ public class Photo {
     private String title;
 
     private Boolean isCollect;
+
+    @Getter
+    private Long resourceType;
+
+    @Getter
+    private String images;
+
+    @Getter
+    private String videoUrl;
+
+    @Getter
+    private Long pageView;
+
+    @Getter
+    private String pageText;
 
     public Long getId() {
         return id;
@@ -65,5 +83,25 @@ public class Photo {
 
     public void setCollect(Boolean collect) {
         isCollect = collect;
+    }
+
+    public void setResourceType(Long resourceType) {
+        this.resourceType = resourceType;
+    }
+
+    public void setImages(String images) {
+        this.images = images;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public void setPageView(Long pageView) {
+        this.pageView = pageView;
+    }
+
+    public void setPageText(String pageText) {
+        this.pageText = pageText;
     }
 }

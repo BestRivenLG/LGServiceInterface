@@ -3,6 +3,7 @@ package org.example.action;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.example.common.*;
 import org.example.config.UserLoginInterceptor;
 import org.example.entity.*;
@@ -21,10 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -412,6 +410,112 @@ public class TotalActions {
         List<PhotoCollect> collects = photoCollectMapper.selectList(query);
         List<Long> listIds = CommonTool.mapPhotoIds(collects);
         return listIds;
+    }
+
+
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
+    @PostMapping("/addVideo")
+    public RespResult<Photo> addVideo(String title, String videoUrl, String cover, Long categoryId) {
+        RespResult<Photo> result = new RespResult<>();
+
+        if (title.isEmpty()) {
+            result.setMessage(RespErrorCode.ERROR.getMessage());
+            result.setStatus("The title cannot be empty");
+            return result;
+        } else if (cover.isEmpty()) {
+            result.setMessage(RespErrorCode.ERROR.getMessage());
+            result.setStatus("The video cover cannot be empty");
+            return result;
+        } else if (videoUrl.isEmpty()) {
+            result.setMessage(RespErrorCode.ERROR.getMessage());
+            result.setStatus("The video link cannot be empty");
+            return result;
+        }
+
+        Photo photo = new Photo();
+        photo.setVideoUrl(videoUrl);
+        photo.setIcon(cover);
+        photo.setRatio(1.2F);
+        photo.setResourceType(2L);
+        photo.setTitle(title);
+
+        QueryWrapper<PhotoCategory> query = new QueryWrapper<PhotoCategory>();
+        List<PhotoCategory> cates = categoryMapper.selectList(query);
+
+        Long catId = getNearPhotoCategoryId(categoryId);
+        if (catId == null) {
+            result.setMessage(RespErrorCode.ERROR.getMessage());
+            result.setStatus("The resource cannot be added because there is no class");
+            return result;
+        }
+        photo.setCategoryId(catId);
+
+        photoMapper.insert(photo);
+        result.setData(photo);
+        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        result.setStatus(RespErrorCode.OK.getMessage());
+        return result;
+    }
+
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
+    @PostMapping("/addImages")
+    public RespResult<Photo> addPhotoImages(String title, String images, Long categoryId) {
+        RespResult<Photo> result = new RespResult<>();
+        List<String> imgs = Arrays.asList(images.split(">>>"));
+
+        if (title.isEmpty()) {
+            result.setMessage(RespErrorCode.ERROR.getMessage());
+            result.setStatus("The title cannot be empty");
+            return result;
+        } else if (imgs.isEmpty()) {
+            result.setMessage(RespErrorCode.ERROR.getMessage());
+            result.setStatus("The picture cannot be empty");
+            return result;
+        }
+        Photo photo = new Photo();
+        photo.setImages(images);
+        String img = imgs.get(0);
+        photo.setIcon(img);
+        photo.setRatio(1F);
+        photo.setResourceType(1L);
+        photo.setTitle(title);
+
+        Long catId = getNearPhotoCategoryId(categoryId);
+        if (catId == null) {
+            result.setMessage(RespErrorCode.ERROR.getMessage());
+            result.setStatus("The resource cannot be added because there is no class");
+            return result;
+        }
+        photo.setCategoryId(catId);
+        photoMapper.insert(photo);
+        result.setData(photo);
+        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        result.setStatus(RespErrorCode.OK.getMessage());
+        return result;
+    }
+
+    private Long getNearPhotoCategoryId(Long categoryId) {
+        QueryWrapper<PhotoCategory> query = new QueryWrapper<PhotoCategory>();
+        List<PhotoCategory> cates = categoryMapper.selectList(query);
+
+        if (!cates.isEmpty()) {
+            if (categoryId != null) {
+
+                for (PhotoCategory catt : cates) {
+                    if (catt.getId().equals(categoryId)) {
+                        return categoryId;
+                    }
+                }
+
+                PhotoCategory cat = cates.get(0);
+                return cat.getId();
+            } else {
+                PhotoCategory cat = cates.get(0);
+                return cat.getId();
+            }
+        } else  {
+            return null;
+        }
     }
 
 }
