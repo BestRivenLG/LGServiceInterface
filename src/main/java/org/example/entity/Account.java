@@ -11,7 +11,7 @@ public class Account {
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    private String phone;
+    private String username;
 
     private String nickname;
 
@@ -29,12 +29,12 @@ public class Account {
         this.id = id;
     }
 
-    public String getPhone() {
-        return phone;
+    public String geUsername() {
+        return username;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhone(String username) {
+        this.username = username;
     }
 
     public String getNickname() {

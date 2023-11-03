@@ -51,11 +51,11 @@ public class TotalActions {
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping("/userLogin")
-    public RespResult<Account> userLogin(String phone, String password, HttpServletRequest request) {
+    public RespResult<Account> userLogin(String username, String password, HttpServletRequest request) {
         RespResult<Account> result = new RespResult<Account>();
-        if (phone.isEmpty()) {
+        if (username.isEmpty()) {
             result.setStatus(RespErrorCode.ERROR.getMessage());
-            result.setMessage("The phone number cannot be empty");
+            result.setMessage("The user name cannot be empty");
             return result;
         } else if (password.isEmpty()) {
             result.setStatus(RespErrorCode.ERROR.getMessage());
@@ -63,7 +63,7 @@ public class TotalActions {
             return result;
         }
 
-        if (!PatternMatcher.textInputPass(phone, PatterRegexType.USERNAME)) {
+        if (!PatternMatcher.textInputPass(username, PatterRegexType.USERNAME)) {
             result.setStatus(RespErrorCode.USERNAMEERROR.getMessage());
             result.setMessage(RespErrorCode.USERNAMEERROR.getDetail());
 //            result.setMessage("The format of the user name is incorrect");
@@ -76,7 +76,7 @@ public class TotalActions {
         }
 
         QueryWrapper<Account> query = new QueryWrapper<Account>();
-        query.eq("phone", phone);
+        query.eq("username", username);
         Account account = accountMapper.selectOne(query);
         if (account == null) {
             result.setStatus(RespErrorCode.ERROR.getMessage());
@@ -120,15 +120,15 @@ public class TotalActions {
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping("/userRegister")
-    public RespResult<Account> userRegister(String phone, String password) {
+    public RespResult<Account> userRegister(String username, String password) {
         RespResult<Account> result = new RespResult<Account>();
-        if (phone.isEmpty() || password.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty()) {
             result.setStatus(RespErrorCode.ERROR.getMessage());
             result.setMessage("The format of the user name or password is incorrect");
             return result;
         }
 
-        if (!PatternMatcher.textInputPass(phone, PatterRegexType.USERNAME)) {
+        if (!PatternMatcher.textInputPass(username, PatterRegexType.USERNAME)) {
             result.setStatus(RespErrorCode.USERNAMEERROR.getMessage());
             result.setMessage(RespErrorCode.USERNAMEERROR.getDetail());
 //            result.setMessage("The format of the user name is incorrect");
@@ -142,12 +142,12 @@ public class TotalActions {
         }
 
         QueryWrapper<Account> query = new QueryWrapper<Account>();
-        query.eq("phone", phone);
+        query.eq("username", username);
         query.last("limit 1");
         Account account = accountMapper.selectOne(query);
         if (account == null) {
             account = new Account();
-            account.setPhone(phone);
+            account.setPhone(username);
 
             String code = RequestUriUtils.mdfive(password);
             if (code != null) {
