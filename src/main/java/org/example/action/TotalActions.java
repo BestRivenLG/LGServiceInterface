@@ -25,26 +25,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
 public class TotalActions {
+    @Value("${server.port}")
+    private int serPort;
     @Resource
     AccountMapper accountMapper;
-
     @Resource
     PhotoMapper photoMapper;
-
     @Resource
     BannerMapper bannerMapper;
-
     @Resource
     PhotoCategoryMapper categoryMapper;
-
     @Resource
     PhotoCollectMapper photoCollectMapper;
-
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping("/userLogin")
@@ -94,7 +90,6 @@ public class TotalActions {
         result.setData(account);
         return result;
     }
-
 
     @GetMapping("/userLogout")
     public RespResult<String> userLogout(@RequestHeader("token") String token, HttpServletRequest request) {
@@ -196,9 +191,6 @@ public class TotalActions {
         return result;
     }
 
-    @Value("${server.port}")
-    private int serPort;
-
     @GetMapping("/hello")
     public RespResult<String> hello() {
         RespResult<String> result = new RespResult<String>();
@@ -220,7 +212,6 @@ public class TotalActions {
         String token = request.getHeader("token");
         QueryWrapper<Account> query = new QueryWrapper<Account>();
         query.eq("token", token);
-//        query.select("id", "nickname"); // 指定要返回的字段
         query.last("limit 1");
         Account account = accountMapper.selectOne(query);
         request.getSession().setAttribute("user", account);
@@ -383,8 +374,6 @@ public class TotalActions {
         result.setStatus(RespErrorCode.OK.getMessage());
         return  result;
     }
-
-
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/myPhotoCollects")
     public RespResult<Map<String, List<Photo>>> myCollectList(@RequestHeader("token") String token, HttpServletRequest request) {
@@ -399,7 +388,7 @@ public class TotalActions {
         QueryWrapper<PhotoCollect> query = new QueryWrapper<PhotoCollect>();
         query.eq("user_id", account.getId());
         List<PhotoCollect> collects = photoCollectMapper.selectList(query);
-        List<Long> listIds = mapPhotoIds(collects);
+        List<Long> listIds = CommonTool.mapPhotoIds(collects);
         Map<String, List<Photo>> maps = new HashMap<>();
 
         if (!listIds.isEmpty()) {
@@ -408,11 +397,8 @@ public class TotalActions {
                 otp.setCollect(true);
             }
             maps.put("list", list);
-
-
         } else {
             maps.put("list", new ArrayList<Photo>());
-
         }
         result.setData(maps);
         result.setMessage(RespErrorCode.SUCCESS.getMessage());
@@ -420,23 +406,12 @@ public class TotalActions {
         return  result;
     }
 
-
-    public List<Long>getMyCollectionPhotoIds(Account account) {
+    private List<Long>getMyCollectionPhotoIds(Account account) {
         QueryWrapper<PhotoCollect> query = new QueryWrapper<PhotoCollect>();
         query.eq("user_id", account.getId());
         List<PhotoCollect> collects = photoCollectMapper.selectList(query);
-        List<Long> listIds = mapPhotoIds(collects);
+        List<Long> listIds = CommonTool.mapPhotoIds(collects);
         return listIds;
     }
-
-    public List<Long>mapPhotoIds(List<PhotoCollect> collects) {
-        List<Long> listIds = collects.stream()
-                .map(collect -> {
-                    return collect.getPhotoId();
-                })
-                .collect(Collectors.toList());
-        return listIds;
-    }
-
 
 }

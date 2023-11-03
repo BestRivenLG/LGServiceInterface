@@ -5,26 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a1b1a89-ede6-46f2-8290-2ffa474637ec" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/config/UserLoginInterceptor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/LoginConfigure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/LoginConfigure.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/MybatisPlusConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/MybatisPlusConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/NettyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/netty/NettyServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/NettyServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/netty/NettyServerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/NioWebSocketChannelInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/netty/NioWebSocketChannelInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/NioWebSocketChannelPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/netty/NioWebSocketChannelPool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/NioWebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/netty/NioWebSocketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/PatternMatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/common/PatternMatcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/RequestUriUtils.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/UserLoginInterceptor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entity/PatterRegexType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/common/PatterRegexType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entity/PhotoCategoryImp.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entity/PhotoService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entity/RespErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/common/RespErrorCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entity/SecureRandomStringGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/common/CommonTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/common/CommonTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/common/CommonTool.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

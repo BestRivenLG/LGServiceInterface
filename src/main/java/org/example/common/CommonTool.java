@@ -1,6 +1,10 @@
 package org.example.common;
 
+import org.example.entity.PhotoCollect;
+
 import java.security.SecureRandom;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CommonTool {
 
@@ -28,5 +32,14 @@ public class CommonTool {
         }
 
         return stringBuilder.toString();
+    }
+
+    public static List<Long> mapPhotoIds(List<PhotoCollect> collects) {
+        List<Long> listIds = collects.stream()
+                .map(collect -> {
+                    return collect.getPhotoId();
+                })
+                .collect(Collectors.toList());
+        return listIds;
     }
 }
