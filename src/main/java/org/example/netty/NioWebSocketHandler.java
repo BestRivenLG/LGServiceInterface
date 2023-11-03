@@ -1,4 +1,4 @@
-package org.example.action.netty;
+package org.example.netty;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.netty.channel.ChannelHandler;

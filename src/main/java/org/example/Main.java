@@ -1,6 +1,6 @@
 package org.example;
 
-import org.example.action.netty.NettyServer;
+import org.example.netty.NettyServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
