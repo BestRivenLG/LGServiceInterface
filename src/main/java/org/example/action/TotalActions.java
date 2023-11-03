@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @RestController
@@ -49,17 +51,30 @@ public class TotalActions {
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping("/userLogin")
-    public RespResult<Account> userLogin(String phone, String code, HttpServletRequest request) {
+    public RespResult<Account> userLogin(String phone, String password, HttpServletRequest request) {
         RespResult<Account> result = new RespResult<Account>();
         if (phone.isEmpty()) {
             result.setStatus(RespErrorCode.ERROR.getMessage());
             result.setMessage("The phone number cannot be empty");
             return result;
-        } else if (code.isEmpty()) {
+        } else if (password.isEmpty()) {
             result.setStatus(RespErrorCode.ERROR.getMessage());
             result.setMessage("The password cannot be empty");
             return result;
         }
+
+        if (!PatternMatcher.textInputPass(phone, PatterRegexType.USERNAME)) {
+            result.setStatus(RespErrorCode.USERNAMEERROR.getMessage());
+            result.setMessage(RespErrorCode.USERNAMEERROR.getDetail());
+//            result.setMessage("The format of the user name is incorrect");
+            return result;
+        } else if (!PatternMatcher.textInputPass(password, PatterRegexType.PASSWORD)) {
+            result.setStatus(RespErrorCode.PASSWORDERROR.getMessage());
+            result.setMessage(RespErrorCode.PASSWORDERROR.getDetail());
+//            result.setMessage("The password format is incorrect");
+            return result;
+        }
+
         QueryWrapper<Account> query = new QueryWrapper<Account>();
         query.eq("phone", phone);
         Account account = accountMapper.selectOne(query);
@@ -68,7 +83,7 @@ public class TotalActions {
             result.setMessage(RespErrorCode.UNREGISTER.getMessage());
             return result;
         } else {
-            String validCode = RequestUriUtils.mdfive(code);
+            String validCode = RequestUriUtils.mdfive(password);
             if (account.getValid().equals(validCode) == false) {
                 result.setStatus(RespErrorCode.ERROR.getMessage());
                 result.setMessage("Incorrect password");
@@ -82,6 +97,7 @@ public class TotalActions {
         result.setData(account);
         return result;
     }
+
 
     @GetMapping("/userLogout")
     public RespResult<String> userLogout(@RequestHeader("token") String token, HttpServletRequest request) {
@@ -105,10 +121,23 @@ public class TotalActions {
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping("/userRegister")
     public RespResult<Account> userRegister(String phone, String password) {
+        RespResult<Account> result = new RespResult<Account>();
         if (phone.isEmpty() || password.isEmpty()) {
-            RespResult<Account> result = new RespResult<Account>();
             result.setStatus(RespErrorCode.ERROR.getMessage());
             result.setMessage("The format of the user name or password is incorrect");
+            return result;
+        }
+
+        if (!PatternMatcher.textInputPass(phone, PatterRegexType.USERNAME)) {
+            result.setStatus(RespErrorCode.USERNAMEERROR.getMessage());
+            result.setMessage(RespErrorCode.USERNAMEERROR.getDetail());
+//            result.setMessage("The format of the user name is incorrect");
+            return result;
+        }
+        else if (!PatternMatcher.textInputPass(password, PatterRegexType.PASSWORD)) {
+            result.setStatus(RespErrorCode.PASSWORDERROR.getMessage());
+            result.setMessage(RespErrorCode.PASSWORDERROR.getDetail());
+//            result.setMessage("The password format is incorrect");
             return result;
         }
 
@@ -116,7 +145,6 @@ public class TotalActions {
         query.eq("phone", phone);
         query.last("limit 1");
         Account account = accountMapper.selectOne(query);
-        RespResult<Account> result = new RespResult<Account>();
         if (account == null) {
             account = new Account();
             account.setPhone(phone);
