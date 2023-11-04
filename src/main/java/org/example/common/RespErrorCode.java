@@ -11,9 +11,9 @@ public enum RespErrorCode {
 
     INVAILTOKEN(10002, "InvailToken", "The Token is invalid. Please log in again", ""),
 
-    USERNAMEERROR(10003, "UserNameFormatError", "请输入4到16个字符，支持英文/数字，首位必须英文", ""),
+    USERNAMEERROR(10003, "UserNameFormatError", "Please enter 4 to 16 characters, support English / digits, the first must be English", "请输入4到16个字符，支持英文/数字，首位必须英文"),
 
-    PASSWORDERROR(10004, "PasswordFormatError", "请输入6到16位，至少包含英文/数字/符号中的两种", "");
+    PASSWORDERROR(10004, "PasswordFormatError", "Please enter 6 to 16 characters, including at least two of English/numbers/symbols", "请输入6到16位，至少包含英文/数字/符号中的两种");
 
 
     private final long code;

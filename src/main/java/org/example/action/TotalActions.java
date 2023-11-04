@@ -76,8 +76,10 @@ public class TotalActions {
         } else {
             String validCode = UserLoginInterceptor.RequestUriUtils.mdfive(password);
             if (!account.getValid().equals(validCode)) {
-                result.setStatus(RespErrorCode.ERROR.getStatus());
-                result.setMessage("Incorrect password");
+                result.setStatus(RespErrorCode.PASSWORDERROR.getStatus());
+                result.setMessage(RespErrorCode.PASSWORDERROR.getMessage());
+//                result.setStatus(RespErrorCode.ERROR.getStatus());
+//                result.setMessage("The login password is incorrect");
                 return result;
             }
             account.setValid(null);
