@@ -45,23 +45,23 @@ public class TotalActions {
     public RespResult<Account> userLogin(String username, String password, HttpServletRequest request) {
         RespResult<Account> result = new RespResult<Account>();
         if (username.isEmpty()) {
-            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setStatus(RespErrorCode.ERROR.getStatus());
             result.setMessage("The user name cannot be empty");
             return result;
         } else if (password.isEmpty()) {
-            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setStatus(RespErrorCode.ERROR.getStatus());
             result.setMessage("The password cannot be empty");
             return result;
         }
 
         if (!PatternMatcher.textInputPass(username, PatterRegexType.USERNAME)) {
-            result.setStatus(RespErrorCode.USERNAMEERROR.getMessage());
-            result.setMessage(RespErrorCode.USERNAMEERROR.getDetail());
+            result.setStatus(RespErrorCode.USERNAMEERROR.getStatus());
+            result.setMessage(RespErrorCode.USERNAMEERROR.getMessage());
 //            result.setMessage("The format of the user name is incorrect");
             return result;
         } else if (!PatternMatcher.textInputPass(password, PatterRegexType.PASSWORD)) {
-            result.setStatus(RespErrorCode.PASSWORDERROR.getMessage());
-            result.setMessage(RespErrorCode.PASSWORDERROR.getDetail());
+            result.setStatus(RespErrorCode.PASSWORDERROR.getStatus());
+            result.setMessage(RespErrorCode.PASSWORDERROR.getMessage());
 //            result.setMessage("The password format is incorrect");
             return result;
         }
@@ -70,20 +70,20 @@ public class TotalActions {
         query.eq("username", username);
         Account account = accountMapper.selectOne(query);
         if (account == null) {
-            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setStatus(RespErrorCode.UNREGISTER.getStatus());
             result.setMessage(RespErrorCode.UNREGISTER.getMessage());
             return result;
         } else {
             String validCode = UserLoginInterceptor.RequestUriUtils.mdfive(password);
             if (!account.getValid().equals(validCode)) {
-                result.setStatus(RespErrorCode.ERROR.getMessage());
+                result.setStatus(RespErrorCode.ERROR.getStatus());
                 result.setMessage("Incorrect password");
                 return result;
             }
             account.setValid(null);
             request.getSession().setAttribute("user", account);
-            result.setStatus(RespErrorCode.OK.getMessage());
-            result.setMessage(RespErrorCode.SUCCESS.getMessage());
+            result.setStatus(RespErrorCode.OK.getStatus());
+            result.setMessage(RespErrorCode.OK.getMessage());
         }
         result.setData(account);
         return result;
@@ -94,8 +94,8 @@ public class TotalActions {
         request.getSession().setAttribute("user", null);
         RespResult result = new RespResult<String>();
         result.setData("Log out successfully");
-        result.setMessage(RespErrorCode.SUCCESS.getMessage());
-        result.setStatus(RespErrorCode.OK.getMessage());
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setMessage(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -103,8 +103,8 @@ public class TotalActions {
     public RespEmptyResult tokenInvail(HttpServletRequest request) {
         request.getSession().setAttribute("user", null);
         RespEmptyResult result = new RespEmptyResult();
+        result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
         result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
-        result.setStatus(RespErrorCode.ERROR.getMessage());
         return result;
     }
 
@@ -113,20 +113,20 @@ public class TotalActions {
     public RespResult<Account> userRegister(String username, String password) {
         RespResult<Account> result = new RespResult<Account>();
         if (username.isEmpty() || password.isEmpty()) {
-            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setStatus(RespErrorCode.ERROR.getStatus());
             result.setMessage("The format of the user name or password is incorrect");
             return result;
         }
 
         if (!PatternMatcher.textInputPass(username, PatterRegexType.USERNAME)) {
-            result.setStatus(RespErrorCode.USERNAMEERROR.getMessage());
-            result.setMessage(RespErrorCode.USERNAMEERROR.getDetail());
+            result.setStatus(RespErrorCode.USERNAMEERROR.getStatus());
+            result.setMessage(RespErrorCode.USERNAMEERROR.getMessage());
 //            result.setMessage("The format of the user name is incorrect");
             return result;
         }
         else if (!PatternMatcher.textInputPass(password, PatterRegexType.PASSWORD)) {
-            result.setStatus(RespErrorCode.PASSWORDERROR.getMessage());
-            result.setMessage(RespErrorCode.PASSWORDERROR.getDetail());
+            result.setStatus(RespErrorCode.PASSWORDERROR.getStatus());
+            result.setMessage(RespErrorCode.PASSWORDERROR.getMessage());
 //            result.setMessage("The password format is incorrect");
             return result;
         }
@@ -156,12 +156,12 @@ public class TotalActions {
             }
             account.setValid(null);
             result.setData(account);
-            result.setStatus(RespErrorCode.OK.getMessage());
-            result.setMessage(RespErrorCode.SUCCESS.getMessage());
+            result.setStatus(RespErrorCode.OK.getStatus());
+            result.setMessage(RespErrorCode.OK.getMessage());
             return result;
 
         } else {
-            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setStatus(RespErrorCode.ERROR.getStatus());
             result.setMessage("The user is registered");
             return result;
         }
@@ -174,7 +174,7 @@ public class TotalActions {
         Account account = tokenIsVaild(request);
         if (account == null) {
             RespResult<Account> result = new RespResult<Account>();
-            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
             result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
             return result;
         }
@@ -184,8 +184,8 @@ public class TotalActions {
         account.setPhone(null);
         account.setValid(null);
         result.setData(account);
-        result.setStatus(RespErrorCode.OK.getMessage());
-        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setMessage(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -201,8 +201,8 @@ public class TotalActions {
             e.printStackTrace();
         }
         result.setData(ress);
-        result.setStatus(RespErrorCode.OK.getMessage());
-        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setMessage(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -230,8 +230,8 @@ public class TotalActions {
         Page<Photo> pageMap = new Page<>(page, size);
         IPage<Photo> pagePhoto = photoMapper.selectPage(pageMap, query);
         result.setData(pagePhoto);
-        result.setStatus(RespErrorCode.OK.getMessage());
-        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setMessage(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -246,7 +246,7 @@ public class TotalActions {
 
         Account account = tokenIsVaild(request);
         if (account == null) {
-            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
             result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
             return result;
         }
@@ -268,8 +268,8 @@ public class TotalActions {
             }
         }
         result.setData(pagePhoto);
-        result.setStatus(RespErrorCode.OK.getMessage());
-        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setMessage(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -282,8 +282,8 @@ public class TotalActions {
         Map<String, List<BannerEntity>> maps = new HashMap<>();
         maps.put("list", banners);
         result.setData(maps);
-        result.setStatus(RespErrorCode.OK.getMessage());
-        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setMessage(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -296,8 +296,8 @@ public class TotalActions {
         Map<String, List<PhotoCategory>> maps = new HashMap<>();
         maps.put("list", cates);
         result.setData(maps);
-        result.setStatus(RespErrorCode.OK.getMessage());
-        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setMessage(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -306,7 +306,7 @@ public class TotalActions {
     public RespResult<Map<String, List<Photo>>> searchPhotos(String text) {
         RespResult<Map<String, List<Photo>>> result = new RespResult<>();
         if (text.isEmpty()) {
-            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setStatus(RespErrorCode.ERROR.getStatus());
             result.setMessage("Please enter the text you want to search for");
             return result;
         }
@@ -316,8 +316,8 @@ public class TotalActions {
         Map<String, List<Photo>> maps = new HashMap<>();
         maps.put("list", cates);
         result.setData(maps);
-        result.setStatus(RespErrorCode.OK.getMessage());
-        result.setMessage(RespErrorCode.SUCCESS.getMessage());
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setMessage(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -328,20 +328,20 @@ public class TotalActions {
         RespResult<Map<String, Boolean>> result = new RespResult<>();
         Account account = tokenIsVaild(request);
         if (account == null) {
-            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
             result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
             return result;
         }
 
         if (photoId == null || collect == null) {
-            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setStatus(RespErrorCode.ERROR.getStatus());
             result.setMessage("Parameter exception");
             return result;
         }
 
         Photo photo = photoMapper.selectById(photoId);
         if (photo == null) {
-            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setStatus(RespErrorCode.ERROR.getStatus());
             result.setMessage("Resource does not exist");
             return result;
         }
@@ -368,8 +368,8 @@ public class TotalActions {
         Map<String, Boolean> data = new HashMap<>();
         data.put("result", collect);
         result.setData(data);
+        result.setStatus(RespErrorCode.OK.getStatus());
         result.setMessage(message);
-        result.setStatus(RespErrorCode.OK.getMessage());
         return  result;
     }
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
@@ -378,7 +378,7 @@ public class TotalActions {
         RespResult<Map<String, List<Photo>>> result = new RespResult<>();
         Account account = tokenIsVaild(request);
         if (account == null) {
-            result.setStatus(RespErrorCode.ERROR.getMessage());
+            result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
             result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
             return result;
         }
@@ -399,8 +399,8 @@ public class TotalActions {
             maps.put("list", new ArrayList<Photo>());
         }
         result.setData(maps);
-        result.setMessage(RespErrorCode.SUCCESS.getMessage());
-        result.setStatus(RespErrorCode.OK.getMessage());
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setMessage(RespErrorCode.OK.getMessage());
         return  result;
     }
 
@@ -419,16 +419,16 @@ public class TotalActions {
         RespResult<Photo> result = new RespResult<>();
 
         if (title.isEmpty()) {
-            result.setMessage(RespErrorCode.ERROR.getMessage());
-            result.setStatus("The title cannot be empty");
+            result.setStatus(RespErrorCode.ERROR.getStatus());
+            result.setMessage("The title cannot be empty");
             return result;
         } else if (cover.isEmpty()) {
-            result.setMessage(RespErrorCode.ERROR.getMessage());
-            result.setStatus("The video cover cannot be empty");
+            result.setStatus(RespErrorCode.ERROR.getStatus());
+            result.setMessage("The video cover cannot be empty");
             return result;
         } else if (videoUrl.isEmpty()) {
-            result.setMessage(RespErrorCode.ERROR.getMessage());
-            result.setStatus("The video link cannot be empty");
+            result.setStatus(RespErrorCode.ERROR.getStatus());
+            result.setMessage("The video link cannot be empty");
             return result;
         }
 
@@ -444,16 +444,16 @@ public class TotalActions {
 
         Long catId = getNearPhotoCategoryId(categoryId);
         if (catId == null) {
-            result.setMessage(RespErrorCode.ERROR.getMessage());
-            result.setStatus("The resource cannot be added because there is no class");
+            result.setStatus(RespErrorCode.ERROR.getStatus());
+            result.setMessage("The resource cannot be added because there is no class");
             return result;
         }
         photo.setCategoryId(catId);
 
         photoMapper.insert(photo);
         result.setData(photo);
-        result.setMessage(RespErrorCode.SUCCESS.getMessage());
-        result.setStatus(RespErrorCode.OK.getMessage());
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setMessage(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -464,12 +464,12 @@ public class TotalActions {
         List<String> imgs = Arrays.asList(images.split(">>>"));
 
         if (title.isEmpty()) {
-            result.setMessage(RespErrorCode.ERROR.getMessage());
-            result.setStatus("The title cannot be empty");
+            result.setStatus(RespErrorCode.ERROR.getStatus());
+            result.setMessage("The title cannot be empty");
             return result;
         } else if (imgs.isEmpty()) {
-            result.setMessage(RespErrorCode.ERROR.getMessage());
-            result.setStatus("The picture cannot be empty");
+            result.setStatus(RespErrorCode.ERROR.getStatus());
+            result.setMessage("The picture cannot be empty");
             return result;
         }
         Photo photo = new Photo();
@@ -482,15 +482,15 @@ public class TotalActions {
 
         Long catId = getNearPhotoCategoryId(categoryId);
         if (catId == null) {
-            result.setMessage(RespErrorCode.ERROR.getMessage());
-            result.setStatus("The resource cannot be added because there is no class");
+            result.setStatus(RespErrorCode.ERROR.getStatus());
+            result.setMessage("The resource cannot be added because there is no class");
             return result;
         }
         photo.setCategoryId(catId);
         photoMapper.insert(photo);
         result.setData(photo);
-        result.setMessage(RespErrorCode.SUCCESS.getMessage());
-        result.setStatus(RespErrorCode.OK.getMessage());
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setMessage(RespErrorCode.OK.getMessage());
         return result;
     }
 
