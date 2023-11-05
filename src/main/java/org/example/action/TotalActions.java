@@ -392,7 +392,7 @@ public class TotalActions {
         }
 
         Page<Photo> ipage = new Page<>(page, size);
-        Page<Photo> listss = photoMapper.selectPageMyPhotoCollect(ipage, account.getId(), 2);
+        Page<Photo> listss = photoMapper.selectPageMyPhotoCollect(ipage, account.getId(), resourceType);
 
         result.setData(listss);
         result.setStatus(RespErrorCode.OK.getStatus());
