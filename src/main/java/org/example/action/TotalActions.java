@@ -378,13 +378,12 @@ public class TotalActions {
     
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/myPhotoCollects")
-    public RespResult<Map<String, Object>> myCollectList(@RequestHeader("token") String token,
+    public RespResult<Page<Photo>> myCollectList(@RequestHeader("token") String token,
                                                               HttpServletRequest request,
                                                               Integer resourceType,
                                                               @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                               @RequestParam(value = "size", defaultValue = "5") Integer size) {
-
-        RespResult<Map<String, Object>> result = new RespResult<>();
+        RespResult<Page<Photo>> result = new RespResult<>();
         Account account = tokenIsVaild(request);
         if (account == null) {
             result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
@@ -392,23 +391,17 @@ public class TotalActions {
             return result;
         }
 
-        Page<PhotoCollect> ipage = new Page<>(page, size);
+        Page<Photo> ipage = new Page<>(page, size);
+        Page<Photo> listss = photoMapper.selectPageMyPhotoCollect(ipage, account.getId(), 2);
 
-        QueryWrapper<PhotoCollect> query = new QueryWrapper<PhotoCollect>();
-//        query.eq("resource_type", resourceType);
-        query.eq("user_id", account.getId());
-        IPage<PhotoCollect> collects = photoCollectMapper.selectPage(ipage, query);
-        List<Long> listIds = CommonTool.mapPhotoIds(collects.getRecords());
-        List<Photo> list = photoMapper.selectBatchIds(listIds);
+//        Map<String, Object> maps = new HashMap<>();
+//        maps.put("records", listss.getRecords());
+//        maps.put("total", listss.getTotal());
+//        maps.put("current", listss.getCurrent());
+//        maps.put("pages", listss.getPages());
+//        maps.put("size", listss.getSize());
 
-        Map<String, Object> maps = new HashMap<>();
-        maps.put("records", list);
-        maps.put("total", collects.getTotal());
-        maps.put("current", collects.getCurrent());
-        maps.put("pages", collects.getPages());
-        maps.put("size", collects.getSize());
-
-        result.setData(maps);
+        result.setData(listss);
         result.setStatus(RespErrorCode.OK.getStatus());
         result.setMessage(RespErrorCode.OK.getMessage());
         return result;
