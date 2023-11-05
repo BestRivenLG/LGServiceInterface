@@ -2,6 +2,7 @@ package org.example.action;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.example.common.*;
@@ -377,12 +378,13 @@ public class TotalActions {
     
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/myPhotoCollects")
-    public RespResult<Map<String, List<Photo>>> myCollectList(@RequestHeader("token") String token,
+    public RespResult<Map<String, Object>> myCollectList(@RequestHeader("token") String token,
                                                               HttpServletRequest request,
                                                               Integer resourceType,
                                                               @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                               @RequestParam(value = "size", defaultValue = "5") Integer size) {
-        RespResult<Map<String, List<Photo>>> result = new RespResult<>();
+
+        RespResult<Map<String, Object>> result = new RespResult<>();
         Account account = tokenIsVaild(request);
         if (account == null) {
             result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
@@ -390,27 +392,27 @@ public class TotalActions {
             return result;
         }
 
-        QueryWrapper<PhotoCollect> query = new QueryWrapper<PhotoCollect>();
-        query.eq("user_id", account.getId());
-        List<PhotoCollect> collects = photoCollectMapper.selectList(query);
-        List<Long> listIds = CommonTool.mapPhotoIds(collects);
-        Map<String, List<Photo>> maps = new HashMap<>();
+        Page<PhotoCollect> ipage = new Page<>(page, size);
 
-        if (!listIds.isEmpty()) {
-            List<Photo> list = photoMapper.selectBatchIds(listIds);
-            for (Photo otp : list) {
-                otp.setCollect(true);
-            }
-            maps.put("list", list);
-        } else {
-            maps.put("list", new ArrayList<Photo>());
-        }
+        QueryWrapper<PhotoCollect> query = new QueryWrapper<PhotoCollect>();
+//        query.eq("resource_type", resourceType);
+        query.eq("user_id", account.getId());
+        IPage<PhotoCollect> collects = photoCollectMapper.selectPage(ipage, query);
+        List<Long> listIds = CommonTool.mapPhotoIds(collects.getRecords());
+        List<Photo> list = photoMapper.selectBatchIds(listIds);
+
+        Map<String, Object> maps = new HashMap<>();
+        maps.put("records", list);
+        maps.put("total", collects.getTotal());
+        maps.put("current", collects.getCurrent());
+        maps.put("pages", collects.getPages());
+        maps.put("size", collects.getSize());
+
         result.setData(maps);
         result.setStatus(RespErrorCode.OK.getStatus());
         result.setMessage(RespErrorCode.OK.getMessage());
-        return  result;
+        return result;
     }
-
 
 //    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
 //    @GetMapping("/myPhotoCollects")
@@ -481,6 +483,7 @@ public class TotalActions {
 //
 //
 //    }
+
 
     private List<Long>getMyCollectionPhotoIds(Account account) {
         QueryWrapper<PhotoCollect> query = new QueryWrapper<PhotoCollect>();
