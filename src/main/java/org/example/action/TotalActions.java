@@ -394,89 +394,11 @@ public class TotalActions {
         Page<Photo> ipage = new Page<>(page, size);
         Page<Photo> listss = photoMapper.selectPageMyPhotoCollect(ipage, account.getId(), 2);
 
-//        Map<String, Object> maps = new HashMap<>();
-//        maps.put("records", listss.getRecords());
-//        maps.put("total", listss.getTotal());
-//        maps.put("current", listss.getCurrent());
-//        maps.put("pages", listss.getPages());
-//        maps.put("size", listss.getSize());
-
         result.setData(listss);
         result.setStatus(RespErrorCode.OK.getStatus());
         result.setMessage(RespErrorCode.OK.getMessage());
         return result;
     }
-
-//    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
-//    @GetMapping("/myPhotoCollects")
-//    public RespResult<IPage<Photo>> myCollectList(@RequestHeader("token") String token, HttpServletRequest request, Integer resourceType,
-//                                                              @RequestParam(value = "page", defaultValue = "1") Integer page,
-//                                                              @RequestParam(value = "size", defaultValue = "5") Integer size) {
-//
-//        RespResult<Map<String, List<Photo>>> result = new RespResult<>();
-//        Account account = tokenIsVaild(request);
-//        if (account == null) {
-//            result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
-//            result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
-//            return result;
-//        }
-//
-//        QueryWrapper<PhotoCollect> query = new QueryWrapper<PhotoCollect>();
-//        query.eq("user_id", account.getId());
-//        List<PhotoCollect> collects = photoCollectMapper.selectList(query);
-//        List<Long> listIds = CommonTool.mapPhotoIds(collects);
-//        Map<String, List<Photo>> maps = new HashMap<>();
-//
-//        if (!listIds.isEmpty()) {
-//            List<Photo> list = photoMapper.selectBatchIds(listIds);
-//            for (Photo otp : list) {
-//                otp.setCollect(true);
-//            }
-//            maps.put("list", list);
-//        } else {
-//            maps.put("list", new ArrayList<Photo>());
-//        }
-//        result.setData(maps);
-//        result.setStatus(RespErrorCode.OK.getStatus());
-//        result.setMessage(RespErrorCode.OK.getMessage());
-//        return  result;
-//
-//        //    public RespResult<IPage<Photo>> getPhotoList(@RequestParam(value = "id", required = false) Integer id,
-////                                                 @RequestParam(value = "page", defaultValue = "1") Integer page,
-////                                                 @RequestParam(value = "size", defaultValue = "5") Integer size) {
-////        RespResult<IPage<Photo>> result = new RespResult<>();
-////        Account account = tokenIsVaild(request);
-////        if (account == null) {
-////            result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
-////            result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
-////            return result;
-////        }
-////
-////        Page<Photo> pageMap = new Page<>(page, size);
-////
-////        QueryWrapper<PhotoCollect> query = new QueryWrapper<PhotoCollect>();
-////        query.eq("user_id", account.getId());
-////        if (resourceType != null) {
-////            /// 字段需要跟数据库字段对应，不能使用驼峰 categoryId, 查询异常
-////            query.eq("resource_type", resourceType);
-////        }
-////        List<PhotoCollect> collects = photoCollectMapper.selectPage(pageMap, query);
-////        List<Long> listIds = CommonTool.mapPhotoIds(collects);
-////
-////        QueryWrapper<Photo> query = new QueryWrapper<Photo>();
-////        if (resourceType != null) {
-////            /// 字段需要跟数据库字段对应，不能使用驼峰 categoryId, 查询异常
-////            query.eq("resource_type", resourceType);
-////        }
-////        IPage<Photo> pagePhoto = photoMapper.selectPage(pageMap, query);
-////        result.setData(pagePhoto);
-////        result.setStatus(RespErrorCode.OK.getStatus());
-////        result.setMessage(RespErrorCode.OK.getMessage());
-////        return result;
-//
-//
-//    }
-
 
     private List<Long>getMyCollectionPhotoIds(Account account) {
         QueryWrapper<PhotoCollect> query = new QueryWrapper<PhotoCollect>();
