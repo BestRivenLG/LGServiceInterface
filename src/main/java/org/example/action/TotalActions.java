@@ -283,6 +283,36 @@ public class TotalActions {
     }
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
+    @GetMapping("/photoList/v3")
+    public RespResult<IPage<Photo>> getPhotoListV3(@RequestHeader("token") String token,
+                                                   HttpServletRequest request,
+                                                   @RequestParam(value = "id", required = false) Long id,
+                                                   @RequestParam(value = "page", defaultValue = "1") Long page,
+                                                   @RequestParam(value = "size", defaultValue = "5") Long size) {
+        RespResult<IPage<Photo>> result = new RespResult<>();
+        Page<Photo> ipage = new Page<>(page, size);
+        Account account = tokenIsVaild(request);
+        if (account == null) {
+            QueryWrapper<Photo> query = new QueryWrapper<Photo>();
+            if (id != null) {
+                /// 字段需要跟数据库字段对应，不能使用驼峰 categoryId, 查询异常
+                query.eq("category_id", id);
+            }
+            Page<Photo> listss = photoMapper.selectPage(ipage, query);
+            result.setData(listss);
+            result.setStatus(RespErrorCode.OK.getStatus());
+            result.setMessage(RespErrorCode.OK.getMessage());
+            return result;
+        }
+
+        Page<Photo> pagePhoto = photoMapper.selectPageMyPhotoList(ipage, id, account.getId());
+        result.setData(pagePhoto);
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setMessage(RespErrorCode.OK.getMessage());
+        return result;
+    }
+
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/bannerList")
     public RespResult<Map<String, List<BannerEntity>>> getBannerList(Integer id) {
         RespResult<Map<String, List<BannerEntity>>> result = new RespResult<>();
