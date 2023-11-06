@@ -20,7 +20,7 @@ public class Photo {
 
     private String title;
 
-    private Boolean isCollect;
+    private Boolean collect;
 
     @Getter
     private Long resourceType;
@@ -77,12 +77,13 @@ public class Photo {
         this.title = title;
     }
 
-    public Boolean getCollect() {
-        return isCollect;
-    }
 
     public void setCollect(Boolean collect) {
-        isCollect = collect;
+        this.collect = collect;
+    }
+
+    public Boolean getCollect() {
+        return collect;
     }
 
     public void setResourceType(Long resourceType) {
