@@ -575,7 +575,29 @@ public class TotalActions {
         return result;
     }
 
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
+    @PostMapping("photo/recentlyView")
+    public RespResult<Map<String, Object>> recentlyViewed(HttpServletRequest request, @RequestParam(value = "page", defaultValue = "1") Long page,
+                                                          @RequestParam(value = "size", defaultValue = "5") Long size) {
 
+        RespResult<Map<String, Object>> result = new RespResult<>();
+        Account account = tokenIsVaild(request);
+        if (account == null) {
+            result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
+            result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
+            return result;
+        }
+        Map<String, Object> maps = new HashMap<>();
+        QueryWrapper<Page<Photo>> query = new QueryWrapper<>();
+        Page<Photo> ipage = new Page<>(page, size);
+        IPage<Photo> pagee = pageViewMapper.selectPageMyRecentlyView(ipage, account.getId());
+
+        maps.put("data", pagee);
+        result.setData(maps);
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setMessage(RespErrorCode.OK.getMessage());
+        return result;
+    }
 
 
 }
