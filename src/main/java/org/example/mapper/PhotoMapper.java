@@ -34,7 +34,7 @@ public interface PhotoMapper extends BaseMapper<Photo> {
 //    @Select("SELECT *, (CASE WHEN p.is_collect IS NULL THEN true ELSE false END) AS is_collect FROM photos p JOIN photos_collect pc ON p.id = pc.photo_id AND pc.user_id  = #{userId} WHERE p.resource_type = #{resourceType}")
 //    @Select("SELECT * FROM photos p JOIN photos_collect pc ON p.id = pc.photo_id AND pc.user_id  = #{userId} WHERE p.resource_type =  #{resourceType}")
 //    @Select("SELECT * FROM photos p WHERE id IN (SELECT pc.photo_id FROM photos_collect pc WHERE pc.user_id = #{userId} ) AND resource_type = #{resourceType}")
-    Page<Photo> selectPageMyPhotoList(@Param("page") Page<Photo> page, @Param("userId") Long userId, @Param("categoryId") Long categoryId);
+    Page<Photo> selectPageMyPhotoList(@Param("page") Page<Photo> page, @Param("categoryId") Long categoryId, @Param("userId") Long userId);
 
 
 
