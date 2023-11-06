@@ -1,5 +1,6 @@
 package org.example.action;
 
+import com.baomidou.mybatisplus.core.conditions.query.Query;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
@@ -224,7 +225,7 @@ public class TotalActions {
     public RespResult<IPage<Photo>> getPhotoList(@RequestParam(value = "id", required = false) Integer id,
                                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                                              @RequestParam(value = "size", defaultValue = "5") Integer size) {
-    RespResult<IPage<Photo>> result = new RespResult<>();
+        RespResult<IPage<Photo>> result = new RespResult<>();
         QueryWrapper<Photo> query = new QueryWrapper<Photo>();
         if (id != null) {
             /// 字段需要跟数据库字段对应，不能使用驼峰 categoryId, 查询异常
@@ -247,21 +248,23 @@ public class TotalActions {
                                                    @RequestParam(value = "size", defaultValue = "5") Integer size) {
         RespResult<IPage<Photo>> result = new RespResult<>();
 
-        Account account = tokenIsVaild(request);
-        if (account == null) {
-            result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
-            result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
-            return result;
-        }
-
         QueryWrapper<Photo> query = new QueryWrapper<Photo>();
         if (id != null) {
             /// 字段需要跟数据库字段对应，不能使用驼峰 categoryId, 查询异常
             query.eq("category_id", id);
         }
 
-        List<Long> photoIds = getMyCollectionPhotoIds(account);
+        Account account = tokenIsVaild(request);
+        if (account == null) {
+            Page<Photo> ipage = new Page<>(page, size);
+            Page<Photo> listss = photoMapper.selectPage(ipage, query);
+            result.setData(listss);
+            result.setStatus(RespErrorCode.OK.getStatus());
+            result.setMessage(RespErrorCode.OK.getMessage());
+            return result;
+        }
 
+        List<Long> photoIds = getMyCollectionPhotoIds(account);
         Page<Photo> pageMap = new Page<>(page, size);
         IPage<Photo> pagePhoto = photoMapper.selectPage(pageMap, query);
         List<Photo> photoRecords = pagePhoto.getRecords();
@@ -270,6 +273,7 @@ public class TotalActions {
                 oto.setCollect(true);
             }
         }
+        pagePhoto.setRecords(photoRecords);
         result.setData(pagePhoto);
         result.setStatus(RespErrorCode.OK.getStatus());
         result.setMessage(RespErrorCode.OK.getMessage());
@@ -514,4 +518,31 @@ public class TotalActions {
         }
     }
 
+
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
+    @PostMapping("photo/detail")
+    public RespResult<Photo> photoDetail(Long photoId) {
+        RespResult<Photo> result = new RespResult<>();
+        QueryWrapper<Photo> query = new QueryWrapper<>();
+        query.eq("id", photoId);
+        Photo photo = photoMapper.selectOne(query);
+        if (photo == null) {
+            result.setStatus(RespErrorCode.ERROR.getStatus());
+            result.setMessage("Data does not exist");
+            return result;
+        }
+
+        Long page = photo.getPageView();
+        if (page == null) {
+            page = 0L;
+        }
+        page += 1L;
+        photo.setPageView(page);
+        photo.setPageText(page + "");
+        photoMapper.update(photo, query);
+        result.setData(photo);
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setMessage(RespErrorCode.OK.getMessage());
+        return result;
+    }
 }

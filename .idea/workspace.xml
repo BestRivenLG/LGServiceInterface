@@ -6,6 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="0a1b1a89-ede6-46f2-8290-2ffa474637ec" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/LoginConfigure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/LoginConfigure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/UserLoginInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/UserLoginInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/mapper/PhotoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/mapper/PhotoMapper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,8 +32,7 @@
     <option name="generalSettings">
       <MavenGeneralSettings>
         <option name="localRepository" value="$PROJECT_DIR$/../Apache/apache-maven-3.9.5/repository" />
-        <option name="mavenHome" value="$PROJECT_DIR$/../../apache-maven-3.9.4" />
-        <option name="userSettingsFile" value="$PROJECT_DIR$/../../apache-maven-3.9.4/conf/settings.xml" />
+        <option name="userSettingsFile" value="$PROJECT_DIR$/../Apache/apache-maven-3.9.5/apache-maven/src/conf/settings.xml" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -96,6 +99,21 @@
           <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
           <line>27</line>
           <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
+          <line>541</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
+          <line>538</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
+          <line>539</line>
+          <option name="timeStamp" value="47" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

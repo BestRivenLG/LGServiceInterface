@@ -24,7 +24,9 @@ public class UserLoginInterceptor implements HandlerInterceptor {
             return  true;
         } else {
             String token = request.getHeader("token");
-            if (!token.isEmpty()) { return true; }
+            if (token != null || !token.isEmpty()) {
+                return true;
+            }
             RespEmptyResult result = new RespEmptyResult();
             result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
             result.setStatus(RespErrorCode.ERROR.getMessage());

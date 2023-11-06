@@ -17,7 +17,7 @@ public interface PhotoMapper extends BaseMapper<Photo> {
 
     // 不使用子查询
 
-    @Select("SELECT p.id, p.category_id, p.icon, COALESCE(p.`collect` , TRUE) AS collect, p.ratio, p.title, p.title, p.resource_type, p.video_url, p.page_view, p.page_text, p.images, p.en_title  FROM photos p JOIN photos_collect pc ON p.id = pc.photo_id AND pc.user_id  = #{userId} WHERE p.resource_type = #{resourceType}\n")
+    @Select("SELECT p.id, p.category_id, p.icon, COALESCE(p.`collect` , TRUE) AS collect, p.ratio, p.title, p.title, p.resource_type, p.video_url, p.page_view, p.page_text, p.images, p.en_title  FROM photos p JOIN photos_collect pc ON p.id = pc.photo_id AND pc.user_id  = #{userId} WHERE p.resource_type = #{resourceType} ORDER BY pc.create_time DESC")
 //    @Select("SELECT *, (CASE WHEN p.collect IS NULL THEN true ELSE false END) AS collect FROM photos p JOIN photos_collect pc ON p.id = pc.photo_id AND pc.user_id  = #{userId} WHERE p.resource_type = #{resourceType}")
 //    @Select("SELECT *, (CASE WHEN p.is_collect IS NULL THEN true ELSE false END) AS is_collect FROM photos p JOIN photos_collect pc ON p.id = pc.photo_id AND pc.user_id  = #{userId} WHERE p.resource_type = #{resourceType}")
 //    @Select("SELECT * FROM photos p JOIN photos_collect pc ON p.id = pc.photo_id AND pc.user_id  = #{userId} WHERE p.resource_type =  #{resourceType}")
