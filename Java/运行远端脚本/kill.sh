@@ -16,3 +16,7 @@ echo "Executing Script 3"
 # 执行子脚本4
 echo "Executing Script 4"
 ./runKillRemoteService3.sh
+
+echo "Executing Script 5"
+./runKillRemoteService4.sh
+

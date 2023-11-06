@@ -41,6 +41,8 @@ public class TotalActions {
     PhotoCategoryMapper categoryMapper;
     @Resource
     PhotoCollectMapper photoCollectMapper;
+    @Resource
+    PageViewMapper pageViewMapper;
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping("/userLogin")
@@ -518,10 +520,9 @@ public class TotalActions {
         }
     }
 
-
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping("photo/detail")
-    public RespResult<Photo> photoDetail(Long photoId) {
+    public RespResult<Photo> photoDetail(HttpServletRequest request, Long photoId) {
         RespResult<Photo> result = new RespResult<>();
         QueryWrapper<Photo> query = new QueryWrapper<>();
         query.eq("id", photoId);
@@ -530,6 +531,34 @@ public class TotalActions {
             result.setStatus(RespErrorCode.ERROR.getStatus());
             result.setMessage("Data does not exist");
             return result;
+        }
+
+        Account account = tokenIsVaild(request);
+        if (account != null) {
+            QueryWrapper<PageView> pageQuery = new QueryWrapper<>();
+            pageQuery.eq("user_id", account.getId());
+            pageQuery.eq("photo_id", photoId);
+            PageView ppview = pageViewMapper.selectOne(pageQuery);
+            Boolean isExit = true;
+            if (ppview == null) {
+                ppview = new PageView();
+                isExit = false;
+            }
+
+            Long page = ppview.getPageView();
+            if (page == null) {
+                page = 0L;
+            }
+            page += 1L;
+            ppview.setPageView(page);
+
+            if (isExit) {
+                pageViewMapper.update(ppview, pageQuery);
+            } else {
+                ppview.setPhotoId(photoId);
+                ppview.setUserId(account.getId());
+                pageViewMapper.insert(ppview);
+            }
         }
 
         Long page = photo.getPageView();
@@ -545,4 +574,8 @@ public class TotalActions {
         result.setMessage(RespErrorCode.OK.getMessage());
         return result;
     }
+
+
+
+
 }
