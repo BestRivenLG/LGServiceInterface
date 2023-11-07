@@ -1,1 +1,1 @@
-ssh root@ymx.lopcool.com /usr/product/java/javapublish.sh
+ssh root@www.lopcool.com /usr/product/java/javapublish.sh

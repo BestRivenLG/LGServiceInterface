@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a1b1a89-ede6-46f2-8290-2ffa474637ec" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Java/scpJar.sh" beforeDir="false" afterPath="$PROJECT_DIR$/Java/scpJar.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Java/运行远端脚本/runKillRemoteService3.sh" beforeDir="false" afterPath="$PROJECT_DIR$/Java/运行远端脚本/runKillRemoteService3.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Java/运行远端脚本/runRemoteService3.sh" beforeDir="false" afterPath="$PROJECT_DIR$/Java/运行远端脚本/runRemoteService3.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Java/运行远端脚本/runRemoteService4.sh" beforeDir="false" afterPath="$PROJECT_DIR$/Java/运行远端脚本/runRemoteService4.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/mapper/PageViewMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/mapper/PageViewMapper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
