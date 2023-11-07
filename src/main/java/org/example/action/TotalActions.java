@@ -304,8 +304,12 @@ public class TotalActions {
             result.setMessage(RespErrorCode.OK.getMessage());
             return result;
         }
-
-        Page<Photo> pagePhoto = photoMapper.selectPageMyPhotoList(ipage, id, account.getId());
+        Page<Photo> pagePhoto;
+        if (id == null) {
+            pagePhoto = photoMapper.selectPageMyAllPhotoList(ipage, account.getId());
+        } else  {
+            pagePhoto = photoMapper.selectPageMyPhotoList(ipage, id, account.getId());
+        }
         result.setData(pagePhoto);
         result.setStatus(RespErrorCode.OK.getStatus());
         result.setMessage(RespErrorCode.OK.getMessage());
