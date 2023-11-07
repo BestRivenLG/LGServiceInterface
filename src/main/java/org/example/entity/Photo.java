@@ -3,6 +3,7 @@ package org.example.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Getter;
 
 import java.util.List;

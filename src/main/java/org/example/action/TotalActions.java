@@ -642,7 +642,10 @@ public class TotalActions {
         pagee += 1L;
         photo.setPageView(pagee);
         photo.setPageText(pagee + "");
+        Boolean last = photo.getCollect();
+        photo.setCollect(null);
         photoMapper.updateById(photo);
+        photo.setCollect(last);
         return photo;
     }
 }
