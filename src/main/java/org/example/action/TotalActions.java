@@ -558,55 +558,31 @@ public class TotalActions {
     @PostMapping("photo/detail")
     public RespResult<Photo> photoDetail(HttpServletRequest request, Long photoId) {
         RespResult<Photo> result = new RespResult<>();
-        QueryWrapper<Photo> query = new QueryWrapper<>();
-        query.eq("id", photoId);
-        Photo photo = photoMapper.selectOne(query);
-        if (photo == null) {
-            result.setStatus(RespErrorCode.ERROR.getStatus());
-            result.setMessage("Data does not exist");
+        Photo photo;
+        Account account = tokenIsVaild(request);
+        if (account != null) {
+            updatePageView(account, photoId);
+            photo = updatePhotoPageView(account, photoId);
+            result.setData(photo);
+            result.setStatus(RespErrorCode.OK.getStatus());
+            result.setMessage(RespErrorCode.OK.getMessage());
+            return result;
+        } else {
+            // 未登录
+            QueryWrapper<Photo> query = new QueryWrapper<>();
+            query.eq("id", photoId);
+            photo = photoMapper.selectOne(query);
+            if (photo == null) {
+                result.setStatus(RespErrorCode.ERROR.getStatus());
+                result.setMessage("Data does not exist");
+                return result;
+            }
+            result.setData(photo);
+            result.setStatus(RespErrorCode.OK.getStatus());
+            result.setMessage(RespErrorCode.OK.getMessage());
             return result;
         }
 
-        Account account = tokenIsVaild(request);
-        if (account != null) {
-            QueryWrapper<PageView> pageQuery = new QueryWrapper<>();
-            pageQuery.eq("user_id", account.getId());
-            pageQuery.eq("photo_id", photoId);
-            PageView ppview = pageViewMapper.selectOne(pageQuery);
-            Boolean isExit = true;
-            if (ppview == null) {
-                ppview = new PageView();
-                isExit = false;
-            }
-
-            Long page = ppview.getPageView();
-            if (page == null) {
-                page = 0L;
-            }
-            page += 1L;
-            ppview.setPageView(page);
-
-            if (isExit) {
-                pageViewMapper.update(ppview, pageQuery);
-            } else {
-                ppview.setPhotoId(photoId);
-                ppview.setUserId(account.getId());
-                pageViewMapper.insert(ppview);
-            }
-        }
-
-        Long page = photo.getPageView();
-        if (page == null) {
-            page = 0L;
-        }
-        page += 1L;
-        photo.setPageView(page);
-        photo.setPageText(page + "");
-        photoMapper.update(photo, query);
-        result.setData(photo);
-        result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(RespErrorCode.OK.getMessage());
-        return result;
     }
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
@@ -630,5 +606,43 @@ public class TotalActions {
         return result;
     }
 
+    private void updatePageView(Account account, Long photoId) {
+        QueryWrapper<PageView> pageQuery = new QueryWrapper<>();
+        pageQuery.eq("user_id", account.getId());
+        pageQuery.eq("photo_id", photoId);
+        PageView ppview = pageViewMapper.selectOne(pageQuery);
+        Boolean isExit = true;
+        if (ppview == null) {
+            ppview = new PageView();
+            isExit = false;
+        }
 
+        Long page = ppview.getPageView();
+        if (page == null) {
+            page = 0L;
+        }
+        page += 1L;
+        ppview.setPageView(page);
+
+        if (isExit) {
+            pageViewMapper.updateById(ppview);
+        } else {
+            ppview.setPhotoId(photoId);
+            ppview.setUserId(account.getId());
+            pageViewMapper.insert(ppview);
+        }
+    }
+
+    private Photo updatePhotoPageView(Account account, Long photoId) {
+        Photo photo = photoMapper.selectLoginPhotoDetail(account.getId(), photoId);
+        Long pagee = photo.getPageView();
+        if (pagee == null) {
+            pagee = 0L;
+        }
+        pagee += 1L;
+        photo.setPageView(pagee);
+        photo.setPageText(pagee + "");
+        photoMapper.updateById(photo);
+        return photo;
+    }
 }

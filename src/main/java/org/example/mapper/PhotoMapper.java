@@ -39,5 +39,7 @@ public interface PhotoMapper extends BaseMapper<Photo> {
     @Select("SELECT p.id, p.category_id, p.icon, p.ratio, p.title, p.resource_type, p.video_url, p.page_view, p.page_text, p.en_title, p.images, p.create_time, p.update_time , COALESCE (p.`collect`, pc.user_id = #{userId}) AS collect  FROM photos p LEFT JOIN photos_collect pc ON p.id = pc.photo_id AND pc.user_id = #{userId} ORDER BY p.update_time DESC")
     Page<Photo> selectPageMyAllPhotoList(@Param("page") Page<Photo> page, @Param("userId") Long userId);
 
+    @Select("SELECT p.id, p.category_id, p.icon, (pc.user_id = #{userId} AND pc.photo_id = #{id}) AS collect, p.ratio, p.title, p.resource_type, p.video_url, p.page_view, p.page_text, p.en_title, p.images, p.create_time, p.update_time AS collect FROM photos p LEFT JOIN photos_collect pc ON (p.id = pc.photo_id AND pc.user_id = #{userId}) WHERE p.id = #{id}")
+    Photo selectLoginPhotoDetail(@Param("userId") Long userId, @Param("id") Long id);
 
 }
