@@ -1,17 +1,18 @@
 package org.example.entity;
 
+import lombok.Getter;
+
 public class RespEmptyResult {
 
-    private String message;
+    @Getter
+    private String msg;
 
     private  String status;
 
-    public String getMessage() {
-        return message;
-    }
+    private long code;
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public String getStatus() {
@@ -20,5 +21,17 @@ public class RespEmptyResult {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public long getCode() {
+        return code;
+    }
+
+    public void setCode(long code) {
+        this.code = code;
     }
 }

@@ -33,8 +33,9 @@ public class BannerActions {
         Map<String, List<BannerEntity>> maps = new HashMap<>();
         maps.put("list", banners);
         result.setData(maps);
+        result.setCode(RespErrorCode.OK.getCode());
         result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(RespErrorCode.OK.getMessage());
+        result.setMsg(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -48,8 +49,9 @@ public class BannerActions {
         BannerEntity banner = bannerMapper.selectOne(query);
         Map<String, List<BannerEntity>> maps = new HashMap<>();
         result.setData(banner);
+        result.setCode(RespErrorCode.OK.getCode());
         result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(RespErrorCode.OK.getMessage());
+        result.setMsg(RespErrorCode.OK.getMessage());
         return result;
     }
 

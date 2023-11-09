@@ -3,7 +3,7 @@ package org.example.common;
 public enum RespErrorCode {
 
     OK(0, "OK", "Success", ""),
-    ERROR(1001, "ERROR", "", ""),
+    ERROR(-1, "ERROR", "", ""),
 
 
     SUCCESS(200, "Success", "", ""),

@@ -47,8 +47,9 @@ public class TotalActions {
             e.printStackTrace();
         }
         result.setData(ress);
+        result.setCode(RespErrorCode.OK.getCode());
         result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(RespErrorCode.OK.getMessage());
+        result.setMsg(RespErrorCode.OK.getMessage());
         return result;
     }
 

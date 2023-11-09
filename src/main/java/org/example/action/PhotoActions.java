@@ -43,8 +43,9 @@ public class PhotoActions {
         Map<String, List<PhotoCategory>> maps = new HashMap<>();
         maps.put("list", cates);
         result.setData(maps);
+        result.setCode(RespErrorCode.OK.getCode());
         result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(RespErrorCode.OK.getMessage());
+        result.setMsg(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -63,8 +64,9 @@ public class PhotoActions {
         Page<Photo> pageMap = new Page<>(page, size);
         IPage<Photo> pagePhoto = photoMapper.selectPage(pageMap, query);
         result.setData(pagePhoto);
+        result.setCode(RespErrorCode.OK.getCode());
         result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(RespErrorCode.OK.getMessage());
+        result.setMsg(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -77,7 +79,6 @@ public class PhotoActions {
                                                    @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                    @RequestParam(value = "size", defaultValue = "5") Integer size) {
         RespResult<IPage<Photo>> result = new RespResult<>();
-
         QueryWrapper<Photo> query = new QueryWrapper<Photo>();
         if (id != null) {
             /// 字段需要跟数据库字段对应，不能使用驼峰 categoryId, 查询异常
@@ -88,8 +89,9 @@ public class PhotoActions {
             Page<Photo> ipage = new Page<>(page, size);
             Page<Photo> listss = photoMapper.selectPage(ipage, query);
             result.setData(listss);
+            result.setCode(RespErrorCode.OK.getCode());
             result.setStatus(RespErrorCode.OK.getStatus());
-            result.setMessage(RespErrorCode.OK.getMessage());
+            result.setMsg(RespErrorCode.OK.getMessage());
             return result;
         }
 
@@ -104,8 +106,9 @@ public class PhotoActions {
         }
         pagePhoto.setRecords(photoRecords);
         result.setData(pagePhoto);
+        result.setCode(RespErrorCode.OK.getCode());
         result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(RespErrorCode.OK.getMessage());
+        result.setMsg(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -127,19 +130,25 @@ public class PhotoActions {
             }
             Page<Photo> listss = photoMapper.selectPage(ipage, query);
             result.setData(listss);
+            result.setCode(RespErrorCode.OK.getCode());
             result.setStatus(RespErrorCode.OK.getStatus());
-            result.setMessage(RespErrorCode.OK.getMessage());
+            result.setMsg(RespErrorCode.OK.getMessage());
             return result;
         }
         Page<Photo> pagePhoto;
         if (id == null) {
             pagePhoto = photoMapper.selectPageMyAllPhotoList(ipage, account.getId());
         } else  {
-            pagePhoto = photoMapper.selectPageMyPhotoList(ipage, id, account.getId());
+            if (id == 4) { //最近浏览
+                pagePhoto = photoMapper.selectPageMyPhotoList(ipage, id, account.getId());
+            } else {
+                pagePhoto = photoMapper.selectPageMyPhotoList(ipage, id, account.getId());
+            }
         }
         result.setData(pagePhoto);
+        result.setCode(RespErrorCode.OK.getCode());
         result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(RespErrorCode.OK.getMessage());
+        result.setMsg(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -153,8 +162,9 @@ public class PhotoActions {
         RespResult<Page<Photo>> result = new RespResult<>();
         Account account = tokenIsVaild(request);
         if (account == null) {
+            result.setCode(RespErrorCode.ERROR.getCode());
             result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
-            result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
+            result.setMsg(RespErrorCode.INVAILTOKEN.getMessage());
             return result;
         }
 
@@ -162,8 +172,9 @@ public class PhotoActions {
         Page<Photo> listss = photoMapper.selectPageMyPhotoCollect(ipage, account.getId(), resourceType);
 
         result.setData(listss);
+        result.setCode(RespErrorCode.OK.getCode());
         result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(RespErrorCode.OK.getMessage());
+        result.setMsg(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -175,21 +186,24 @@ public class PhotoActions {
         RespResult<Map<String, Boolean>> result = new RespResult<>();
         Account account = tokenIsVaild(request);
         if (account == null) {
+            result.setCode(RespErrorCode.ERROR.getCode());
             result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
-            result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
+            result.setMsg(RespErrorCode.INVAILTOKEN.getMessage());
             return result;
         }
 
         if (photoId == null || collect == null) {
+            result.setCode(RespErrorCode.ERROR.getCode());
             result.setStatus(RespErrorCode.ERROR.getStatus());
-            result.setMessage("Parameter exception");
+            result.setMsg("Parameter exception");
             return result;
         }
 
         Photo photo = photoMapper.selectById(photoId);
         if (photo == null) {
+            result.setCode(RespErrorCode.ERROR.getCode());
             result.setStatus(RespErrorCode.ERROR.getStatus());
-            result.setMessage("Resource does not exist");
+            result.setMsg("Resource does not exist");
             return result;
         }
 
@@ -215,8 +229,9 @@ public class PhotoActions {
         Map<String, Boolean> data = new HashMap<>();
         data.put("result", collect);
         result.setData(data);
+        result.setCode(RespErrorCode.ERROR.getCode());
         result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(message);
+        result.setMsg(message);
         return  result;
     }
 
@@ -226,8 +241,9 @@ public class PhotoActions {
     public RespResult<Map<String, List<Photo>>> searchPhotos(String text) {
         RespResult<Map<String, List<Photo>>> result = new RespResult<>();
         if (text.isEmpty()) {
+            result.setCode(RespErrorCode.ERROR.getCode());
             result.setStatus(RespErrorCode.ERROR.getStatus());
-            result.setMessage("Please enter the text you want to search for");
+            result.setMsg("Please enter the text you want to search for");
             return result;
         }
         QueryWrapper<Photo> query = new QueryWrapper<Photo>();
@@ -236,8 +252,9 @@ public class PhotoActions {
         Map<String, List<Photo>> maps = new HashMap<>();
         maps.put("list", cates);
         result.setData(maps);
+        result.setCode(RespErrorCode.ERROR.getCode());
         result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(RespErrorCode.OK.getMessage());
+        result.setMsg(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -251,8 +268,9 @@ public class PhotoActions {
             updatePageView(account, photoId);
             photo = updatePhotoPageView(account, photoId);
             result.setData(photo);
+            result.setCode(RespErrorCode.OK.getCode());
             result.setStatus(RespErrorCode.OK.getStatus());
-            result.setMessage(RespErrorCode.OK.getMessage());
+            result.setMsg(RespErrorCode.OK.getMessage());
             return result;
         } else {
             // 未登录
@@ -260,13 +278,15 @@ public class PhotoActions {
             query.eq("id", photoId);
             photo = photoMapper.selectOne(query);
             if (photo == null) {
+                result.setCode(RespErrorCode.ERROR.getCode());
                 result.setStatus(RespErrorCode.ERROR.getStatus());
-                result.setMessage("Data does not exist");
+                result.setMsg("Data does not exist");
                 return result;
             }
             result.setData(photo);
+            result.setCode(RespErrorCode.OK.getCode());
             result.setStatus(RespErrorCode.OK.getStatus());
-            result.setMessage(RespErrorCode.OK.getMessage());
+            result.setMsg(RespErrorCode.OK.getMessage());
             return result;
         }
 
@@ -279,8 +299,9 @@ public class PhotoActions {
         RespResult<IPage<Photo>> result = new RespResult<>();
         Account account = tokenIsVaild(request);
         if (account == null) {
+            result.setCode(RespErrorCode.ERROR.getCode());
             result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
-            result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
+            result.setMsg(RespErrorCode.INVAILTOKEN.getMessage());
             return result;
         }
         Map<String, Object> maps = new HashMap<>();
@@ -288,8 +309,9 @@ public class PhotoActions {
         Page<Photo> ipage = new Page<>(page, size);
         IPage<Photo> pagee = pageViewMapper.selectPageMyRecentlyView(ipage, account.getId());
         result.setData(pagee);
+        result.setCode(RespErrorCode.OK.getCode());
         result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(RespErrorCode.OK.getMessage());
+        result.setMsg(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -344,15 +366,15 @@ public class PhotoActions {
 
         if (title.isEmpty()) {
             result.setStatus(RespErrorCode.ERROR.getStatus());
-            result.setMessage("The title cannot be empty");
+            result.setMsg("The title cannot be empty");
             return result;
         } else if (cover.isEmpty()) {
             result.setStatus(RespErrorCode.ERROR.getStatus());
-            result.setMessage("The video cover cannot be empty");
+            result.setMsg("The video cover cannot be empty");
             return result;
         } else if (videoUrl.isEmpty()) {
             result.setStatus(RespErrorCode.ERROR.getStatus());
-            result.setMessage("The video link cannot be empty");
+            result.setMsg("The video link cannot be empty");
             return result;
         }
 
@@ -369,15 +391,16 @@ public class PhotoActions {
         Long catId = getNearPhotoCategoryId(categoryId);
         if (catId == null) {
             result.setStatus(RespErrorCode.ERROR.getStatus());
-            result.setMessage("The resource cannot be added because there is no class");
+            result.setMsg("The resource cannot be added because there is no class");
             return result;
         }
         photo.setCategoryId(catId);
 
         photoMapper.insert(photo);
         result.setData(photo);
+        result.setCode(RespErrorCode.OK.getCode());
         result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(RespErrorCode.OK.getMessage());
+        result.setMsg(RespErrorCode.OK.getMessage());
         return result;
     }
 
@@ -388,12 +411,14 @@ public class PhotoActions {
         List<String> imgs = Arrays.asList(images.split(">>>"));
 
         if (title.isEmpty()) {
+            result.setCode(RespErrorCode.ERROR.getCode());
             result.setStatus(RespErrorCode.ERROR.getStatus());
-            result.setMessage("The title cannot be empty");
+            result.setMsg("The title cannot be empty");
             return result;
         } else if (imgs.isEmpty()) {
+            result.setCode(RespErrorCode.ERROR.getCode());
             result.setStatus(RespErrorCode.ERROR.getStatus());
-            result.setMessage("The picture cannot be empty");
+            result.setMsg("The picture cannot be empty");
             return result;
         }
         Photo photo = new Photo();
@@ -406,15 +431,17 @@ public class PhotoActions {
 
         Long catId = getNearPhotoCategoryId(categoryId);
         if (catId == null) {
+            result.setCode(RespErrorCode.ERROR.getCode());
             result.setStatus(RespErrorCode.ERROR.getStatus());
-            result.setMessage("The resource cannot be added because there is no class");
+            result.setMsg("The resource cannot be added because there is no class");
             return result;
         }
         photo.setCategoryId(catId);
         photoMapper.insert(photo);
         result.setData(photo);
+        result.setCode(RespErrorCode.OK.getCode());
         result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(RespErrorCode.OK.getMessage());
+        result.setMsg(RespErrorCode.OK.getMessage());
         return result;
     }
 
