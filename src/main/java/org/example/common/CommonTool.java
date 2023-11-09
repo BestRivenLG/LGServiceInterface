@@ -1,7 +1,12 @@
 package org.example.common;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.example.entity.Account;
 import org.example.entity.PhotoCollect;
+import org.example.mapper.AccountMapper;
+import org.example.mapper.PhotoCollectMapper;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +45,24 @@ public class CommonTool {
                     return collect.getPhotoId();
                 })
                 .collect(Collectors.toList());
+        return listIds;
+    }
+
+    public static Account tokenIsVaild(AccountMapper accountMapper, HttpServletRequest request) {
+        String token = request.getHeader("token");
+        QueryWrapper<Account> query = new QueryWrapper<Account>();
+        query.eq("token", token);
+        query.last("limit 1");
+        Account account = accountMapper.selectOne(query);
+        request.getSession().setAttribute("user", account);
+        return account;
+    }
+
+    public static List<Long>getMyCollectionPhotoIds(PhotoCollectMapper photoCollectMapper, Account account) {
+        QueryWrapper<PhotoCollect> query = new QueryWrapper<PhotoCollect>();
+        query.eq("user_id", account.getId());
+        List<PhotoCollect> collects = photoCollectMapper.selectList(query);
+        List<Long> listIds = CommonTool.mapPhotoIds(collects);
         return listIds;
     }
 }
