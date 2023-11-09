@@ -12,12 +12,14 @@ import org.example.entity.RespResult;
 import org.example.mapper.AccountMapper;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/zxz/user")
 public class ZXUserActions {
 
+    @Resource
     AccountMapper accountMapper;
 
     /*用户登录*/
@@ -75,9 +77,10 @@ public class ZXUserActions {
         return result;
     }
 
+    /*退出登录*/
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/logout")
-    public RespResult<String> userLogout(@RequestHeader("token") String token, HttpServletRequest request) {
+    public RespResult<String> userLogout(HttpServletRequest request) {
         request.getSession().setAttribute("user", null);
         RespResult result = new RespResult<String>();
         result.setData("Log out successfully");

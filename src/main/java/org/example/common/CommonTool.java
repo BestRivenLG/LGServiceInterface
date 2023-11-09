@@ -49,7 +49,7 @@ public class CommonTool {
     }
 
     public static Account tokenIsVaild(AccountMapper accountMapper, HttpServletRequest request) {
-        String token = request.getHeader("token");
+        String token = request.getHeader("Authorization");
         QueryWrapper<Account> query = new QueryWrapper<Account>();
         query.eq("token", token);
         query.last("limit 1");
