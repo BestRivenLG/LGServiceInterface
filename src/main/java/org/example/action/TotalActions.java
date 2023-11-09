@@ -36,8 +36,6 @@ public class TotalActions {
     @Resource
     PhotoMapper photoMapper;
     @Resource
-    BannerMapper bannerMapper;
-    @Resource
     PhotoCategoryMapper categoryMapper;
     @Resource
     PhotoCollectMapper photoCollectMapper;
@@ -316,34 +314,7 @@ public class TotalActions {
         return result;
     }
 
-    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
-    @GetMapping("/bannerList")
-    public RespResult<Map<String, List<BannerEntity>>> getBannerList(Integer id) {
-        RespResult<Map<String, List<BannerEntity>>> result = new RespResult<>();
-        QueryWrapper<BannerEntity> query = new QueryWrapper<BannerEntity>();
-        query.eq("type", 1);
-        List<BannerEntity> banners = bannerMapper.selectList(query);
-        Map<String, List<BannerEntity>> maps = new HashMap<>();
-        maps.put("list", banners);
-        result.setData(maps);
-        result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(RespErrorCode.OK.getMessage());
-        return result;
-    }
 
-    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
-    @GetMapping("/activity")
-    public RespResult<BannerEntity> getActivityList() {
-        RespResult<BannerEntity> result = new RespResult<>();
-        QueryWrapper<BannerEntity> query = new QueryWrapper<BannerEntity>();
-        query.eq("type", 3);
-        BannerEntity banner = bannerMapper.selectOne(query);
-        Map<String, List<BannerEntity>> maps = new HashMap<>();
-        result.setData(banner);
-        result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMessage(RespErrorCode.OK.getMessage());
-        return result;
-    }
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/photoCategory")
