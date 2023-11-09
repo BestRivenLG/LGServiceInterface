@@ -1,6 +1,5 @@
 package org.example.action;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.example.common.RespErrorCode;
 import org.example.entity.BannerEntity;
@@ -18,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-public class BannerAction {
+public class BannerActions {
 
     @Resource
     BannerMapper bannerMapper;
@@ -53,4 +52,5 @@ public class BannerAction {
         result.setMessage(RespErrorCode.OK.getMessage());
         return result;
     }
+
 }
