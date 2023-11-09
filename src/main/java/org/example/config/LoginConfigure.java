@@ -24,6 +24,18 @@ public class LoginConfigure implements WebMvcConfigurer {
         registion.excludePathPatterns("/api/photoList");
         registion.excludePathPatterns("/api/photoList/v2");
         registion.excludePathPatterns("/api/photoList/v3");
+
+        registion.excludePathPatterns("/zxz/user/login");
+        registion.excludePathPatterns("/zxz/user/register");
+        registion.excludePathPatterns("/zxz/user/logout");
+        registion.excludePathPatterns("/zxz/bannerList");
+        registion.excludePathPatterns("/zxz/activity");
+        registion.excludePathPatterns("/zxz/photoCategory");
+        registion.excludePathPatterns("/zxz/photoSearch");
+        registion.excludePathPatterns("/zxz/photoList");
+        registion.excludePathPatterns("/zxz/photoList/v2");
+        registion.excludePathPatterns("/zxz/photoList/v3");
+
 //        registion.excludePathPatterns("/api/myPhotoCollects");
 //        registion.excludePathPatterns("/api/photoCollect");
     }

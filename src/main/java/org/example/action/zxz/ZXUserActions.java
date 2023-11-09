@@ -1,4 +1,5 @@
-package org.example.action;
+package org.example.action.zxz;
+
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.example.common.CommonTool;
@@ -7,25 +8,21 @@ import org.example.common.PatternMatcher;
 import org.example.common.RespErrorCode;
 import org.example.config.UserLoginInterceptor;
 import org.example.entity.Account;
-import org.example.entity.RespEmptyResult;
 import org.example.entity.RespResult;
 import org.example.mapper.AccountMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/api")
-public class AccountActions {
-    @Value("${server.port}")
-    private int serPort;
-    @Resource
+@RequestMapping("/api/zxz/user")
+public class ZXUserActions {
+
     AccountMapper accountMapper;
 
+    /*用户登录*/
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
-    @PostMapping("/userLogin")
+    @PostMapping("/login")
     public RespResult<Account> userLogin(String username, String password, HttpServletRequest request) {
         RespResult<Account> result = new RespResult<Account>();
         if (username.isEmpty()) {
@@ -78,9 +75,8 @@ public class AccountActions {
         return result;
     }
 
-    /*退出登录*/
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
-    @GetMapping("/userLogout")
+    @GetMapping("/logout")
     public RespResult<String> userLogout(@RequestHeader("token") String token, HttpServletRequest request) {
         request.getSession().setAttribute("user", null);
         RespResult result = new RespResult<String>();
@@ -91,21 +87,9 @@ public class AccountActions {
         return result;
     }
 
-    /*token是否有效*/
-    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
-    @GetMapping("/tokenInvail")
-    public RespEmptyResult tokenInvail(HttpServletRequest request) {
-        request.getSession().setAttribute("user", null);
-        RespEmptyResult result = new RespEmptyResult();
-        result.setCode(RespErrorCode.ERROR.getCode());
-        result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
-        result.setMsg(RespErrorCode.INVAILTOKEN.getMessage());
-        return result;
-    }
-
     /*用户注册*/
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
-    @PostMapping("/userRegister")
+    @PostMapping("/register")
     public RespResult<Account> userRegister(String username, String password) {
         RespResult<Account> result = new RespResult<Account>();
         if (username.isEmpty() || password.isEmpty()) {
@@ -165,29 +149,4 @@ public class AccountActions {
             return result;
         }
     }
-
-    /*查看我的用户信息*/
-    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
-    @GetMapping("/myUserInfo")
-    public RespResult<Account> myUserInfo(@RequestHeader("token") String token, HttpServletRequest request) {
-        Account account = CommonTool.tokenIsVaild(accountMapper, request);
-        if (account == null) {
-            RespResult<Account> result = new RespResult<Account>();
-            result.setCode(RespErrorCode.ERROR.getCode());
-            result.setStatus(RespErrorCode.INVAILTOKEN.getStatus());
-            result.setMsg(RespErrorCode.INVAILTOKEN.getMessage());
-            return result;
-        }
-        account.setToken(null);
-        request.getSession().setAttribute("user", account);
-        RespResult<Account> result = new RespResult<Account>();
-        account.setPhone(null);
-        account.setValid(null);
-        result.setData(account);
-        result.setCode(RespErrorCode.OK.getCode());
-        result.setStatus(RespErrorCode.OK.getStatus());
-        result.setMsg(RespErrorCode.OK.getMessage());
-        return result;
-    }
-
 }
