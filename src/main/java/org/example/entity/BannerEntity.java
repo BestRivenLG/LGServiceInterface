@@ -17,6 +17,16 @@ public class BannerEntity {
 
     String content;
 
+    Long type;
+
+    public Long getType() {
+        return type;
+    }
+
+    public void setType(Long type) {
+        this.type = type;
+    }
+
     public long getId() {
         return id;
     }
