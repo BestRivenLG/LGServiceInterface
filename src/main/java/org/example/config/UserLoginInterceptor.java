@@ -24,18 +24,18 @@ public class UserLoginInterceptor implements HandlerInterceptor {
             return  true;
         } else {
             String token = request.getHeader("token");
-            if (token != null || !token.isEmpty()) {
-                return true;
+            if (token == null || token.isEmpty()) {
+                RespEmptyResult result = new RespEmptyResult();
+                result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
+                result.setStatus(RespErrorCode.ERROR.getMessage());
+                ObjectMapper objectMapper = new ObjectMapper();
+                String errorResponseJson = objectMapper.writeValueAsString(result);
+                response.setCharacterEncoding("UTF-8");
+                response.setContentType("application/json");
+                response.getWriter().write(errorResponseJson);
+                return  false;
             }
-            RespEmptyResult result = new RespEmptyResult();
-            result.setMessage(RespErrorCode.INVAILTOKEN.getMessage());
-            result.setStatus(RespErrorCode.ERROR.getMessage());
-            ObjectMapper objectMapper = new ObjectMapper();
-            String errorResponseJson = objectMapper.writeValueAsString(result);
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("application/json");
-            response.getWriter().write(errorResponseJson);
-            return  false;
+            return  true;
         }
     }
 

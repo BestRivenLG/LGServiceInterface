@@ -72,6 +72,7 @@ public class AccountActions {
     }
 
     /*退出登录*/
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/userLogout")
     public RespResult<String> userLogout(@RequestHeader("token") String token, HttpServletRequest request) {
         request.getSession().setAttribute("user", null);
@@ -83,6 +84,7 @@ public class AccountActions {
     }
 
     /*token是否有效*/
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/tokenInvail")
     public RespEmptyResult tokenInvail(HttpServletRequest request) {
         request.getSession().setAttribute("user", null);

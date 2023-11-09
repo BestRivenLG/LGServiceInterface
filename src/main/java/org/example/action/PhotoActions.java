@@ -20,7 +20,6 @@ import java.util.Map;
 @RequestMapping("/api")
 public class PhotoActions {
 
-
     @Resource
     AccountMapper accountMapper;
     @Resource
@@ -73,8 +72,7 @@ public class PhotoActions {
     /*获取图片列表，需要登录 v2版本*/
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/photoList/v2")
-    public RespResult<IPage<Photo>> getPhotoListV1(@RequestHeader("token") String token,
-                                                   HttpServletRequest request,
+    public RespResult<IPage<Photo>> getPhotoListV1(HttpServletRequest request,
                                                    @RequestParam(value = "id", required = false) Integer id,
                                                    @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                    @RequestParam(value = "size", defaultValue = "5") Integer size) {
@@ -114,8 +112,7 @@ public class PhotoActions {
     /*获取图片列表，需要登录，SQL查询，优化v3版本*/
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/photoList/v3")
-    public RespResult<IPage<Photo>> getPhotoListV3(@RequestHeader("token") String token,
-                                                   HttpServletRequest request,
+    public RespResult<IPage<Photo>> getPhotoListV3(HttpServletRequest request,
                                                    @RequestParam(value = "id", required = false) Long id,
                                                    @RequestParam(value = "page", defaultValue = "1") Long page,
                                                    @RequestParam(value = "size", defaultValue = "5") Long size) {
@@ -149,8 +146,7 @@ public class PhotoActions {
     /*我的收藏列表*/
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/myPhotoCollects")
-    public RespResult<Page<Photo>> myCollectList(@RequestHeader("token") String token,
-                                                 HttpServletRequest request,
+    public RespResult<Page<Photo>> myCollectList(HttpServletRequest request,
                                                  Integer resourceType,
                                                  @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                  @RequestParam(value = "size", defaultValue = "5") Integer size) {
