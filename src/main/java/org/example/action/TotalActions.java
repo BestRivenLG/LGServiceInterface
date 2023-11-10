@@ -60,7 +60,9 @@ public class TotalActions {
         return result;
     }
 
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping(value = "/log/appsFlyerCallback")
+//    @PostMapping(value = "/log/appsFlyerCallback")
     public RespResult<String> appsFlyerCallback(HttpServletRequest request) {
         RespResult<String> result = new RespResult<>();
         result.setStatus(RespErrorCode.OK.getStatus());
