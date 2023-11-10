@@ -6,12 +6,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import io.netty.handler.codec.http.HttpRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.example.common.*;
+import org.example.config.RequestWrapper;
 import org.example.config.UserLoginInterceptor;
 import org.example.entity.*;
 import org.example.mapper.*;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +26,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import java.io.BufferedReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 
+
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class TotalActions {
@@ -36,7 +43,7 @@ public class TotalActions {
 
     /*获取服务器IP*/
     @GetMapping("/hello")
-    public RespResult<String> hello() {
+    public RespResult<String> hello(HttpServletRequest request) {
         RespResult<String> result = new RespResult<String>();
         String ress = "";
         try {
@@ -50,6 +57,18 @@ public class TotalActions {
         result.setCode(RespErrorCode.OK.getCode());
         result.setStatus(RespErrorCode.OK.getStatus());
         result.setMsg(RespErrorCode.OK.getMessage());
+        return result;
+    }
+
+    @GetMapping(value = "/log/appsFlyerCallback")
+    public RespResult<String> appsFlyerCallback(HttpServletRequest request) {
+        RespResult<String> result = new RespResult<>();
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setCode(RespErrorCode.OK.getCode());
+        Map<String, String > maps = CommonTool.getParameterMapAll(request);
+        String paramter = maps.toString();
+//        String paramter = new RequestWrapper(request).getBody();
+        log.info("测试feign调用------biz" + paramter);
         return result;
     }
 

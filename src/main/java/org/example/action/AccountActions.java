@@ -169,7 +169,7 @@ public class AccountActions {
     /*查看我的用户信息*/
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/myUserInfo")
-    public RespResult<Account> myUserInfo(@RequestHeader("token") String token, HttpServletRequest request) {
+    public RespResult<Account> myUserInfo(HttpServletRequest request) {
         Account account = CommonTool.tokenIsVaild(accountMapper, request);
         if (account == null) {
             RespResult<Account> result = new RespResult<Account>();

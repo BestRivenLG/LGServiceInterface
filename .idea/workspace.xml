@@ -5,10 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a1b1a89-ede6-46f2-8290-2ffa474637ec" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/config/HttpServletRequestFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/config/RequestWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/zxz/ZXUserActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/zxz/ZXUserActions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/AccountActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/AccountActions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/common/CommonTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/common/CommonTool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/LoginConfigure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/LoginConfigure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/UserLoginInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/UserLoginInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/entity/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/entity/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,13 +55,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/yaro/Desktop/Practice/Java/LGServiceInterface",
-    "settings.editor.selected.configurable": "MavenSettings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/yaro/Desktop/Practice/Java/LGServiceInterface&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.Main" />
@@ -111,23 +119,58 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/action/zxz/ZXUserActions.java</url>
-          <line>55</line>
-          <option name="timeStamp" value="48" />
+          <line>28</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/zxz/ZXUserActions.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="44" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/action/zxz/ZXUserActions.java</url>
           <line>56</line>
-          <option name="timeStamp" value="49" />
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/zxz/ZXUserActions.java</url>
+          <line>55</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/zxz/ZXUserActions.java</url>
+          <line>57</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/zxz/ZXUserActions.java</url>
+          <line>47</line>
+          <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/action/zxz/ZXUserActions.java</url>
           <line>63</line>
-          <option name="timeStamp" value="50" />
+          <option name="timeStamp" value="49" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/zxz/ZXUserActions.java</url>
-          <line>62</line>
-          <option name="timeStamp" value="51" />
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/config/RequestWrapper.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="62" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
+          <line>67</line>
+          <option name="timeStamp" value="63" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

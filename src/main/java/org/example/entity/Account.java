@@ -21,6 +21,16 @@ public class Account {
 
     private String valid;
 
+    private Long avatarId;
+
+    private String email;
+    private Boolean hasExchangePwd;
+    private Long level;
+    private String phone;
+    private String realName;
+    private Long status;
+    private Long userGold;
+
     public Long getId() {
         return id;
     }
@@ -67,5 +77,73 @@ public class Account {
 
     public void setValid(String valid) {
         this.valid = valid;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Long getAvatarId() {
+        return avatarId;
+    }
+
+    public void setAvatarId(Long avatarId) {
+        this.avatarId = avatarId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Boolean getHasExchangePwd() {
+        return hasExchangePwd;
+    }
+
+    public void setHasExchangePwd(Boolean hasExchangePwd) {
+        this.hasExchangePwd = hasExchangePwd;
+    }
+
+    public Long getLevel() {
+        return level;
+    }
+
+    public void setLevel(Long level) {
+        this.level = level;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
+
+    public Long getUserGold() {
+        return userGold;
+    }
+
+    public void setUserGold(Long userGold) {
+        this.userGold = userGold;
     }
 }

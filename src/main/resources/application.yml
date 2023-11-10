@@ -19,5 +19,8 @@ spring:
 
 # Logger Config
 logging:
+  config: classpath:log4j2.xml
   level:
     com.baomidou.mybatisplus.samples.quickstart: debug
+    root: trace
+
