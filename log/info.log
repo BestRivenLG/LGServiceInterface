@@ -1,3 +1,0 @@
-14:02:42.998 [main] INFO  org.example.Main - Starting Main on YarodeMacBook-Pro.local with PID 63225 (/Users/yaro/Desktop/Practice/Java/LGServiceInterface/target/classes started by yaro in /Users/yaro/Desktop/Practice/Java/LGServiceInterface)
-14:02:53.054 [main] INFO  org.example.Main - No active profile set, falling back to default profiles: default
-14:03:06.899 [main] INFO  org.example.Main - Started Main in 39.524 seconds (JVM running for 45.82)

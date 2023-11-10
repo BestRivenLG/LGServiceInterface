@@ -43,7 +43,7 @@ public class TotalActions {
 
     /*获取服务器IP*/
     @GetMapping("/hello")
-    public RespResult<String> hello(HttpServletRequest request) {
+    public RespResult<String> hello() {
         RespResult<String> result = new RespResult<String>();
         String ress = "";
         try {
@@ -67,8 +67,7 @@ public class TotalActions {
         result.setCode(RespErrorCode.OK.getCode());
         Map<String, String > maps = CommonTool.getParameterMapAll(request);
         String paramter = maps.toString();
-//        String paramter = new RequestWrapper(request).getBody();
-        log.info("测试feign调用------biz" + paramter);
+        log.info("appsFlyerCallback parmater:" + paramter);
         return result;
     }
 
