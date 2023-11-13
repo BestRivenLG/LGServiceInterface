@@ -11,9 +11,9 @@ public class BannerEntity {
     @TableId(type = IdType.AUTO)
     long id;
 
-    String url;
+    String link;
 
-    String icon;
+    String imgUrl;
 
     String content;
 
@@ -35,20 +35,20 @@ public class BannerEntity {
         this.id = id;
     }
 
-    public String getUrl() {
-        return url;
+    public String getLink() {
+        return link;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setLink(String link) {
+        this.link = link;
     }
 
-    public String getIcon() {
-        return icon;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public String getContent() {

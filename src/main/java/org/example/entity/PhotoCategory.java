@@ -10,9 +10,11 @@ public class PhotoCategory {
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    private String cnTitle;
+//    private String cnTitle;
 
-    private String enTitle;
+    private String name;
+
+    private int sort;
 
     public Long getId() {
         return id;
@@ -22,19 +24,27 @@ public class PhotoCategory {
         this.id = id;
     }
 
-    public String getCnTitle() {
-        return cnTitle;
+//    public String getCnTitle() {
+//        return cnTitle;
+//    }
+//
+//    public void setCnTitle(String cnTitle) {
+//        this.cnTitle = cnTitle;
+//    }
+
+    public String getName() {
+        return name;
     }
 
-    public void setCnTitle(String cnTitle) {
-        this.cnTitle = cnTitle;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getEnTitle() {
-        return enTitle;
+    public int getSort() {
+        return sort;
     }
 
-    public void setEnTitle(String enTitle) {
-        this.enTitle = enTitle;
+    public void setSort(int sort) {
+        this.sort = sort;
     }
 }
