@@ -182,7 +182,7 @@ public class PhotoActions {
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping("/photoCollect")
     @PostMapping("/photoCollect")
-    public RespResult<Map<String, Boolean>> collectOperation(@RequestHeader("token") String token, HttpServletRequest request, Long photoId, Boolean collect) {
+    public RespResult<Map<String, Boolean>> collectOperation(HttpServletRequest request, Long photoId, Boolean collect) {
         RespResult<Map<String, Boolean>> result = new RespResult<>();
         Account account = tokenIsVaild(request);
         if (account == null) {
