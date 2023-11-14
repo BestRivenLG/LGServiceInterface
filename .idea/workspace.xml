@@ -107,26 +107,6 @@
           <line>58</line>
           <option name="timeStamp" value="42" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
-          <line>119</line>
-          <option name="timeStamp" value="47" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
-          <line>127</line>
-          <option name="timeStamp" value="48" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
-          <line>106</line>
-          <option name="timeStamp" value="49" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
-          <line>91</line>
-          <option name="timeStamp" value="51" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

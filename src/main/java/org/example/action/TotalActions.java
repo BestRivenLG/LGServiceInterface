@@ -79,7 +79,8 @@ public class TotalActions {
         String opUrl = maps.get("original_url");
         String envent_name = maps.get("event_name");
         String event_value = maps.get("event_value");
-        String total = envent_name + " - " + opUrl + " - " + event_value;
+        String total = envent_name + " " + opUrl + " " + event_value;
+        log.info(total);
         sendLarkWebhookMessage(total);
         return result;
     }
@@ -88,7 +89,7 @@ public class TotalActions {
     @GetMapping(value = "/log/send/text")
     private RespResult<String> sendLarkWebhookMessage(String text) {
         Map<String, String> maps = new HashMap<>();
-        String str = "{\"text\":\""+ " "+ text + " \"}";
+        String str = "{\"text\":\""+ "iOS "+ text + " \"}";
         maps.put("msg_type", "text");
         maps.put("content", str);
         postRequest("https://open.larksuite.com/open-apis/bot/v2/hook/1c1bc503-6371-47b0-8bf6-a17115f3f2b3", maps);
@@ -104,6 +105,7 @@ public class TotalActions {
             //追加表单信息
             builder1.add(key, maps.get(key) == null ? "" : maps.get(key));
         }
+        log.info("maps: = "+maps);
         RequestBody formBody = builder1.build();
         Request request = new Request.Builder().
                 url(url)
@@ -112,12 +114,11 @@ public class TotalActions {
                 .build();
         OkHttpClient okHttpClient = new OkHttpClient();
         Call call1 = okHttpClient.newCall(request);
-
         call1.enqueue(new Callback() {
             //请求时失败时调用
             @Override
             public void onFailure(Call call, IOException e) {
-                System.out.println("onFailure: " + call);
+                log.info("onFailure: " + call);
             }
 
             //请求成功时调用
@@ -125,7 +126,7 @@ public class TotalActions {
             public void onResponse(Call call, Response response) throws IOException {
                 //处于子线程中，能够进行大文件下载，但是无法更新UI
                 final String res = response.body().string();//请求成功时返回的东西
-                System.out.println("res: " + res);
+                log.info("res: " + res);
             }
         });
     }
