@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.netty.handler.codec.http.HttpRequest;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.RequestBody;
 import org.example.common.*;
 import org.example.config.RequestWrapper;
 import org.example.config.UserLoginInterceptor;
@@ -27,10 +28,15 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.*;
+import java.util.logging.Handler;
 
+import okhttp3.*;
 
 @Slf4j
 @RestController
@@ -70,7 +76,76 @@ public class TotalActions {
         Map<String, String > maps = CommonTool.getParameterMapAll(request);
         String paramter = maps.toString();
         log.info("appsFlyerCallback parmater:" + paramter);
+        String opUrl = maps.get("original_url");
+        String envent_name = maps.get("event_name");
+        String event_value = maps.get("event_value");
+        String total = envent_name + " - " + opUrl + " - " + event_value;
+        sendLarkWebhookMessage(total);
         return result;
+    }
+
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
+    @GetMapping(value = "/log/send/text")
+    private RespResult<String> sendLarkWebhookMessage(String text) {
+        Map<String, String> maps = new HashMap<>();
+        String str = "{\"text\":\""+ " "+ text + " \"}";
+        maps.put("msg_type", "text");
+        maps.put("content", str);
+        postRequest("https://open.larksuite.com/open-apis/bot/v2/hook/1c1bc503-6371-47b0-8bf6-a17115f3f2b3", maps);
+        RespResult<String> result = new RespResult<>();
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setCode(RespErrorCode.OK.getCode());
+        return result;
+    }
+
+    public static void postRequest(String url, Map<String, String> maps) {
+        FormBody.Builder builder1 = new FormBody.Builder();
+        for (String key : maps.keySet()) {
+            //追加表单信息
+            builder1.add(key, maps.get(key) == null ? "" : maps.get(key));
+        }
+        RequestBody formBody = builder1.build();
+        Request request = new Request.Builder().
+                url(url)
+                .post(formBody)
+                .addHeader("Content-Type", "application/json")
+                .build();
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Call call1 = okHttpClient.newCall(request);
+
+        call1.enqueue(new Callback() {
+            //请求时失败时调用
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("onFailure: " + call);
+            }
+
+            //请求成功时调用
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //处于子线程中，能够进行大文件下载，但是无法更新UI
+                final String res = response.body().string();//请求成功时返回的东西
+                System.out.println("res: " + res);
+            }
+        });
+    }
+
+    private static void callback(Call call) {
+        call.enqueue(new Callback() {
+            //请求时失败时调用
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("onFailure: " + call);
+            }
+
+            //请求成功时调用
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //处于子线程中，能够进行大文件下载，但是无法更新UI
+                final String res = response.body().string();//请求成功时返回的东西
+                System.out.println("res: " + res);
+            }
+        });
     }
 
 }
