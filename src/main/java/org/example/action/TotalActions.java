@@ -76,9 +76,23 @@ public class TotalActions {
         Map<String, String > maps = CommonTool.getParameterMapAll(request);
         String paramter = maps.toString();
         log.info("appsFlyerCallback parmater:" + paramter);
-        String opUrl = maps.get("original_url");
-        String envent_name = maps.get("event_name");
-        String event_value = maps.get("event_value");
+        String opUrl = "";
+        String envent_name = "";
+        String event_value = "";
+
+        if (maps.get("original_url") != null) {
+            opUrl = maps.get("original_url");
+        }
+        if (maps.get("event_name") != null) {
+            envent_name = maps.get("event_name");
+        }
+        if (maps.get("event_value") != null) {
+            if (maps.get("event_value") instanceof String) {
+                event_value = maps.get("event_value");
+            } else {
+                event_value = maps.get("event_value").toString();
+            }
+        }
         String total = envent_name + " " + opUrl + " " + event_value;
         log.info(total);
         sendLarkWebhookMessage(total);
