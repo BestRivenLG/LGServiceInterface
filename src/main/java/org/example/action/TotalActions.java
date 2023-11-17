@@ -86,6 +86,7 @@ public class TotalActions {
                 event_value = maps.get("event_value").toString();
             }
         }
+        
         String total = envent_name + " " + opUrl + " " + event_value;
         log.info(total);
         sendLarkWebhookMessage(total);
