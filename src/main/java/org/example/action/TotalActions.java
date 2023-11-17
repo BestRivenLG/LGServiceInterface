@@ -107,7 +107,6 @@ public class TotalActions {
         sendLarkWebhookMessage("java " + total);
         return result;
     }
-
     
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping(value = "/log/send/text")
