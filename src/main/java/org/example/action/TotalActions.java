@@ -77,6 +77,7 @@ public class TotalActions {
         String paramter = maps.toString();
         log.info("appsFlyerCallback parmater:" + paramter);
         String event_value = "";
+        String opUrl = maps.get("original_url");
         String envent_name = maps.get("event_name");
         if (maps.get("event_value") != null) {
             if (maps.get("event_value") instanceof String) {
