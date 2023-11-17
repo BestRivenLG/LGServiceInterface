@@ -89,7 +89,22 @@ public class TotalActions {
 
         String total = envent_name + " " + opUrl + " " + event_value;
         log.info(total);
-        sendLarkWebhookMessage(total);
+        sendLarkWebhookMessage("iOS " + total);
+        return result;
+    }
+
+    @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
+    @PostMapping(value = "/log/receivePush")
+    public RespResult<String> receivePush(HttpServletRequest request) {
+        RespResult<String> result = new RespResult<>();
+        result.setStatus(RespErrorCode.OK.getStatus());
+        result.setCode(RespErrorCode.OK.getCode());
+        Map<String, String > maps = CommonTool.getParameterMapAll(request);
+        String paramter = maps.toString();
+        log.info("receivePush parmater:" + paramter);
+        String total = paramter;
+        log.info(total);
+        sendLarkWebhookMessage("java " + total);
         return result;
     }
 
@@ -97,7 +112,7 @@ public class TotalActions {
     @GetMapping(value = "/log/send/text")
     private RespResult<String> sendLarkWebhookMessage(String text) {
         Map<String, String> maps = new HashMap<>();
-        String str = "{\"text\":\""+ "iOS "+ text + " \"}";
+        String str = "{\"text\":\"" + text + " \"}";
         maps.put("msg_type", "text");
         maps.put("content", str);
         postRequest("https://open.larksuite.com/open-apis/bot/v2/hook/1c1bc503-6371-47b0-8bf6-a17115f3f2b3", maps);

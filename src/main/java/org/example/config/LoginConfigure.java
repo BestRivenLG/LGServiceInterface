@@ -29,6 +29,7 @@ public class LoginConfigure implements WebMvcConfigurer {
         registion.excludePathPatterns("/api/zxz/category/*");
 
         registion.excludePathPatterns("/api/log/appsFlyerCallback");
+        registion.excludePathPatterns("/api/log/receivePush");
 
     }
 }
