@@ -100,14 +100,28 @@ public class TotalActions {
         result.setStatus(RespErrorCode.OK.getStatus());
         result.setCode(RespErrorCode.OK.getCode());
         Map<String, String > maps = CommonTool.getParameterMapAll(request);
-        String paramter = maps.toString();
+        String paramter = getMapsString(maps);
+        log.info("receivePush maps:" + maps);
         log.info("receivePush parmater:" + paramter);
         String total = paramter;
         log.info(total);
         sendLarkWebhookMessage("java " + total);
         return result;
     }
-    
+
+    public String getMapsString(Map<String, String >maps) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> entry : maps.entrySet()) {
+            sb.append(entry.getKey()).append(":").append(entry.getValue()).append(", ");
+        }
+
+        String result = sb.toString();
+        if (result.length() > 2) {
+            result = result.substring(0, result.length() - 2); // 去除最后的逗号和空格
+        }
+        return result;
+    }
+
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @GetMapping(value = "/log/send/text")
     private RespResult<String> sendLarkWebhookMessage(String text) {
