@@ -75,6 +75,7 @@ public class TotalActions {
         Map<String, String > maps = CommonTool.getParameterMapAll(request);
         String paramter = maps.toString();
         log.info("appsFlyerCallback parmater:" + paramter);
+
         String event_value = "";
         String opUrl = maps.get("original_url");
         String envent_name = maps.get("event_name");
