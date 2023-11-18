@@ -95,12 +95,21 @@ public class TotalActions {
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping(value = "/log/receivePush")
-    public RespResult<String> receivePush(HttpServletRequest request) {
+    public RespResult<String> receivePush(HttpServletRequest request) throws IOException {
         RespResult<String> result = new RespResult<>();
         result.setStatus(RespErrorCode.OK.getStatus());
         result.setCode(RespErrorCode.OK.getCode());
         Map<String, String > maps = CommonTool.getParameterMapAll(request);
         String paramter = getMapsString(maps);
+
+        BufferedReader reader = request.getReader();
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line);
+        }
+        String body = stringBuilder.toString();
+        log.info("body :" + body);
         log.info("receivePush maps:" + maps);
         log.info("receivePush parmater:" + paramter);
         String total = paramter;
