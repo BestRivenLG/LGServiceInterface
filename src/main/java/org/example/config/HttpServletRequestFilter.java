@@ -15,9 +15,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-//@Component
-//@WebFilter(filterName = "HttpServletRequestFilter", urlPatterns = "/")
-//@Order(99)
+@Component
+@WebFilter(filterName = "HttpServletRequestFilter", urlPatterns = "/")
+@Order(99)
 public class HttpServletRequestFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
