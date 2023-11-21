@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Slf4j
@@ -34,14 +35,14 @@ public class NioWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFr
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.debug("客户端连接：{}", ctx.channel().id());
+        log.info("客户端连接：{}", ctx.channel().id());
         webSocketChannelPool.addChannel(ctx.channel());
         super.channelActive(ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log.debug("客户端断开连接：{}", ctx.channel().id());
+        log.info("客户端断开连接：{}", ctx.channel().id());
         webSocketChannelPool.removeChannel(ctx.channel());
         super.channelInactive(ctx);
     }
@@ -52,7 +53,7 @@ public class NioWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFr
      */
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        log.debug("通道读取数据完毕 刷新通道：{}", ctx.channel().id());
+        log.info("通道读取数据完毕 刷新通道：{}", ctx.channel().id());
         ctx.channel().flush();
     }
 
@@ -83,11 +84,11 @@ public class NioWebSocketHandler extends SimpleChannelInboundHandler<WebSocketFr
         String uri = request.uri();
         Map<String, String> params = UserLoginInterceptor.RequestUriUtils.getParams(uri);
         log.debug("客户端请求参数：{}", params);
-
         // 判断请求路径是否跟配置中的一致
         if (nettyServer.getPath().equals(UserLoginInterceptor.RequestUriUtils.getBasePath(uri))) {
             // 因为有可能携带了参数，导致客户端一直无法返回握手包，因此在校验通过后，重置请求路径
-            String token = params.get("token");
+            HttpHeaders headers = request.headers();
+            String token = headers.get("token");
             Account account = tokenIsVaild(token);
             if (account != null) {
                 webSocketChannelPool.setTokenForChannel(token, ctx.channel());

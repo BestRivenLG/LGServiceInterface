@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a1b1a89-ede6-46f2-8290-2ffa474637ec" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/target/LGServiceInterface-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/config/HttpServletRequestFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/config/HttpServletRequestFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/NioWebSocketChannelPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/NioWebSocketChannelPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/netty/NioWebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/netty/NioWebSocketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +32,7 @@
     <option name="generalSettings">
       <MavenGeneralSettings>
         <option name="localRepository" value="$PROJECT_DIR$/../Apache/apache-maven-3.9.5/repository" />
-        <option name="userSettingsFile" value="$PROJECT_DIR$/../../apache-maven-3.9.4/conf/settings.xml" />
+        <option name="userSettingsFile" value="$PROJECT_DIR$/../Apache/apache-maven-3.9.5/apache-maven/src/conf/settings.xml" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -50,7 +50,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "git-widget-placeholder": "Merging main",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/yaro/Desktop/Practice/Java/LGServiceInterface",
     "settings.editor.selected.configurable": "MavenSettings"
   }
@@ -101,48 +101,58 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
-          <line>27</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/action/PhotoActions.java</url>
           <line>58</line>
           <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
-          <line>78</line>
-          <option name="timeStamp" value="43" />
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/netty/NettyServerHandler.java</url>
+          <line>18</line>
+          <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
-          <line>140</line>
-          <option name="timeStamp" value="45" />
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/netty/NettyServerHandler.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="54" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
-          <line>112</line>
-          <option name="timeStamp" value="46" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
-          <line>111</line>
-          <option name="timeStamp" value="48" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/netty/NioWebSocketHandler.java</url>
           <line>105</line>
-          <option name="timeStamp" value="51" />
+          <option name="timeStamp" value="61" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/netty/NioWebSocketHandler.java</url>
+          <line>115</line>
+          <option name="timeStamp" value="62" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/netty/NioWebSocketHandler.java</url>
+          <line>97</line>
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/netty/NioWebSocketHandler.java</url>
+          <line>100</line>
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/netty/NioWebSocketHandler.java</url>
+          <line>65</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/netty/NioWebSocketHandler.java</url>
+          <line>91</line>
+          <option name="timeStamp" value="75" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/action/TotalActions.java</url>
-          <line>97</line>
-          <properties class="org.example.action.TotalActions" method="receivePush">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/netty/NettyServerHandler.java</url>
+          <line>27</line>
+          <properties class="org.example.netty.NettyServerHandler" method="channelInactive">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
-          <option name="timeStamp" value="47" />
+          <option name="timeStamp" value="55" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

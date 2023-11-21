@@ -15,6 +15,8 @@ import org.example.config.UserLoginInterceptor;
 import org.example.entity.*;
 import org.example.mapper.*;
 
+import org.example.netty.NioWebSocketChannelPool;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,6 +49,9 @@ public class TotalActions {
     @Value("${server.port}")
     private int serPort;
 
+    @Autowired
+    private NioWebSocketChannelPool webSocketChannelPool;
+
     /*获取服务器IP*/
     @GetMapping("/hello")
     public RespResult<String> hello() {
@@ -68,13 +73,21 @@ public class TotalActions {
 
     @CrossOrigin(origins = "*") // 设置允许来自任何源的跨域请求
     @PostMapping(value = "/log/appsFlyerCallback")
-    public RespResult<String> appsFlyerCallback(HttpServletRequest request) {
+    public RespResult<String> appsFlyerCallback(HttpServletRequest request) throws IOException {
         RespResult<String> result = new RespResult<>();
         result.setStatus(RespErrorCode.OK.getStatus());
         result.setCode(RespErrorCode.OK.getCode());
         Map<String, String > maps = CommonTool.getParameterMapAll(request);
         String paramter = maps.toString();
         log.info("appsFlyerCallback parmater:" + paramter);
+
+        BufferedReader reader = request.getReader();
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line);
+        }
+        String body = stringBuilder.toString();
 
         String event_value = "";
         String opUrl = maps.get("original_url");
@@ -89,6 +102,7 @@ public class TotalActions {
 
         String total = envent_name + " " + opUrl + " " + event_value;
         log.info(total);
+        webSocketChannelPool.postNoticeMessage(body);
         sendLarkWebhookMessage("iOS " + total);
         return result;
     }
@@ -114,6 +128,7 @@ public class TotalActions {
         log.info("receivePush parmater:" + paramter);
         String total = paramter;
         log.info(total);
+        webSocketChannelPool.postNoticeMessage(body);
         sendLarkWebhookMessage("java " + total);
         return result;
     }
