@@ -1,3 +1,8 @@
+echo '重置本地代码'
+git reset --hard
+echo '拉取远端代码'
+git pull
+
 echo 'package finished'
 mvn clean package
 echo '开始后台运行程序'
