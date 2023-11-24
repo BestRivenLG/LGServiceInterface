@@ -1,3 +1,5 @@
+
+cd /usr/product/java/LGServices
 echo '重置本地代码'
 git reset --hard
 echo '拉取远端代码'
