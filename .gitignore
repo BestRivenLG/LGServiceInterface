@@ -1,13 +1,13 @@
-# target/
+target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-target/classes
-target/generated-sources
-target/maven-archiver
-target/maven-status
-target/LGServiceInterface-1.0-SNAPSHOT.jar.original
+#target/classes
+#target/generated-sources
+#target/maven-archiver
+#target/maven-status
+#target/LGServiceInterface-1.0-SNAPSHOT.jar.original
 
 
 ### IntelliJ IDEA ###
